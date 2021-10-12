@@ -1,4 +1,26 @@
 # depslib dependency file v1.0
-1633957360 source:c:\users\administrator\desktop\git\adm-medicamentos\main.cpp
+1634052477 source:c:\users\administrator\desktop\git\adm-medicamentos\main.cpp
 	<iostream>
+	"src/Servidor.cpp"
+	"src/Cliente.cpp"
+
+1634052612 source:c:\users\administrator\desktop\git\adm-medicamentos\src\cliente.cpp
+	<iostream>
+	<winsock2.h>
+
+1634038683 source:c:\users\administrator\desktop\git\adm-medicamentos\src\medicamento.cpp
+
+1634038775 source:c:\users\administrator\desktop\git\adm-medicamentos\src\servidor.cpp
+	<iostream>
+	<winsock2.h>
+
+1634038661 source:c:\users\administrator\desktop\git\adm-medicamentos\src\tipomedicamento.cpp
+
+1634038775 c:\users\administrator\desktop\git\adm-medicamentos\src\servidor.cpp
+	<iostream>
+	<winsock2.h>
+
+1634052612 c:\users\administrator\desktop\git\adm-medicamentos\src\cliente.cpp
+	<iostream>
+	<winsock2.h>
 
