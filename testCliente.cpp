@@ -3,9 +3,9 @@
 
 using namespace std;
 
-int main()
+int testCliente()
 {
-   Cliente *cliente = new Cliente();
+    Cliente *cliente = new Cliente();
     cout<<"enviando"<<endl;
 
     while(true)
@@ -13,5 +13,8 @@ int main()
         cliente->enviar();
 
     }
+
     return 0;
 }
+
+

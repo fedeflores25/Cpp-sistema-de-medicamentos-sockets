@@ -24,7 +24,7 @@ public:
         cout<<"Conectado al servidor"<<endl;
     }
 
-    enviar()
+    void enviar()
     {
         cout<<"Escribe el mensaje a enviar: "<<endl;
         cin>>this->buffer;
@@ -33,7 +33,7 @@ public:
         memset(buffer, 0, sizeof(buffer));
     }
 
-    recibir()
+    void recibir()
     {
         recv(server, buffer, sizeof(buffer),0);
         cout<<"El servidor dice: "<<buffer<<endl;
