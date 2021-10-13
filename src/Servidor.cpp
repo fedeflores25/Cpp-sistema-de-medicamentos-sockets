@@ -3,7 +3,7 @@
 
 using namespace std;
 
-class Server
+class Servidor
 {
 public:
     //Atributos
@@ -15,9 +15,11 @@ public:
     {
         WSAStartup(MAKEWORD(2,0),&wsaData);
         server = socket(AF_INET,SOCK_STREAM,0);
+
         serverAddr.sin_addr.s_addr = INADDR_ANY;
         serverAddr.sin_family = AF_INET;
         serverAddr.sin_port = htons(5555);
+
         bind(server,(SOCKADDR *)&serverAddr,sizeof(serverAddr));
         listen(server, 0);
         cout<<"Escuchando conexiones entrantes..."<<endl;
@@ -37,7 +39,7 @@ public:
     }
     void enviar()
     {
-        cout<<"Escribe el mensaje a enviar: ";
+        cout<<"Escribe el mensaje a enviar: "<<endl;
         cin>>this->buffer;
         send(server,buffer,sizeof(buffer),0);
         memset(buffer, 0, sizeof(buffer));

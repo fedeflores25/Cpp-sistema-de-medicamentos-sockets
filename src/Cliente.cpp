@@ -23,7 +23,7 @@ public:
         connect(server, (SOCKADDR *)&addr, sizeof(addr));
         cout<<"Conectado al servidor"<<endl;
     }
-
+    // metodos
     void enviar()
     {
         cout<<"Escribe el mensaje a enviar: "<<endl;

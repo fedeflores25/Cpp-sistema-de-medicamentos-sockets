@@ -1,12 +1,19 @@
-/*#include "Medicamento.h"
+#include <iostream>
+#include <winsock2.h>
+#include "TipoMedicamento.cpp"
 
-Medicamento::Medicamento()
-{
-    //ctor
-}
+using namespace std;
 
-Medicamento::~Medicamento()
+class Medicamento
 {
-    //dtor
-}
-*/
+    //Visibilidad privada por defecto
+    string codigoDeProducto;
+    string nombreDroga;
+    bool estado;
+    int id;
+    string nombreComercial;
+    TipoMedicamento tipo;
+
+
+
+};

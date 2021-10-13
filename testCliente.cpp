@@ -2,7 +2,7 @@
 #include "src/Cliente.cpp"
 
 using namespace std;
-
+/*
 int testCliente()
 {
     Cliente *cliente = new Cliente();
@@ -16,5 +16,5 @@ int testCliente()
 
     return 0;
 }
-
+*/
 

@@ -1,33 +1,43 @@
 # depslib dependency file v1.0
-1634066493 source:c:\users\administrator\desktop\git\adm-medicamentos\main.cpp
+1634119123 source:c:\users\administrator\desktop\git\adm-medicamentos\main.cpp
+	<iostream>
+	"src/Cliente.cpp"
+	"src/Servidor.cpp"
+
+1634117364 source:c:\users\administrator\desktop\git\adm-medicamentos\src\cliente.cpp
+	<iostream>
+	<winsock2.h>
+
+1634082896 source:c:\users\administrator\desktop\git\adm-medicamentos\src\medicamento.cpp
+	<iostream>
+	<winsock2.h>
+	"TipoMedicamento.cpp"
+
+1634118375 source:c:\users\administrator\desktop\git\adm-medicamentos\src\servidor.cpp
+	<iostream>
+	<winsock2.h>
+
+1634116705 source:c:\users\administrator\desktop\git\adm-medicamentos\src\tipomedicamento.cpp
+	<iostream>
+	<winsock2.h>
+
+1634118375 c:\users\administrator\desktop\git\adm-medicamentos\src\servidor.cpp
+	<iostream>
+	<winsock2.h>
+
+1634117364 c:\users\administrator\desktop\git\adm-medicamentos\src\cliente.cpp
+	<iostream>
+	<winsock2.h>
+
+1634118447 source:c:\users\administrator\desktop\git\adm-medicamentos\testcliente.cpp
 	<iostream>
 	"src/Cliente.cpp"
 
-1634065500 source:c:\users\administrator\desktop\git\adm-medicamentos\src\cliente.cpp
-	<iostream>
-	<winsock2.h>
-
-1634064716 source:c:\users\administrator\desktop\git\adm-medicamentos\src\medicamento.cpp
-
-1634064716 source:c:\users\administrator\desktop\git\adm-medicamentos\src\servidor.cpp
-	<iostream>
-	<winsock2.h>
-
-1634064716 source:c:\users\administrator\desktop\git\adm-medicamentos\src\tipomedicamento.cpp
-
-1634064716 c:\users\administrator\desktop\git\adm-medicamentos\src\servidor.cpp
-	<iostream>
-	<winsock2.h>
-
-1634065500 c:\users\administrator\desktop\git\adm-medicamentos\src\cliente.cpp
-	<iostream>
-	<winsock2.h>
-
-1634066347 source:c:\users\administrator\desktop\git\adm-medicamentos\testcliente.cpp
-	<iostream>
-	"src/Cliente.cpp"
-
-1634065098 source:c:\users\administrator\desktop\git\adm-medicamentos\testserver.cpp
+1634118430 source:c:\users\administrator\desktop\git\adm-medicamentos\testserver.cpp
 	<iostream>
 	"src/Servidor.cpp"
+
+1634116705 c:\users\administrator\desktop\git\adm-medicamentos\src\tipomedicamento.cpp
+	<iostream>
+	<winsock2.h>
 

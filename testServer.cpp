@@ -2,10 +2,10 @@
 #include "src/Servidor.cpp"
 
 using namespace std;
-
+/*
 int testServer()
 {
-    Server *servidor = new Server();
+    Servidor *servidor = new Servidor();
 
     while(true)
     {
@@ -15,3 +15,4 @@ int testServer()
 
     return 0;
 }
+*/

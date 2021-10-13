@@ -1,17 +1,28 @@
 #include <iostream>
 #include "src/Cliente.cpp"
+#include "src/Servidor.cpp"
 
 using namespace std;
 
 int main()
 {
-   Cliente *cliente = new Cliente();
-    cout<<"enviando"<<endl;
-
-    while(true)
+    Servidor *servidor = new Servidor();
+    int fly=0;
+    bool flybool=true;
+    while(flybool)
     {
-        cliente->enviar();
+        servidor->recibir();
+        servidor->enviar();
+        cout<<"Termino la comunicacion? 1-si 2-no"<<endl;
+        cin>>fly;
+        if(fly==1){
+            flybool = false;
+            servidor->cerrarSocket();
+        }
 
     }
+
     return 0;
 }
+
+
