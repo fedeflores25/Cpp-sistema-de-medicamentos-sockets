@@ -44,7 +44,7 @@ int main()
         // switch con opciones
         switch(varMenu)
         {
-        case 1:
+        case 1://TIPO DE MEDICAMENTO
         {
             //SUBMENU TIPO MEDICAMENTO******************************************
             system("cls");
@@ -74,36 +74,118 @@ int main()
                 {
                 case 1:
                 {
-                char denominacion[50];
-                 cout<<"Crear Tipo de Medicamento"<<endl;
-                 cout<<"por favor ingrese la denominacion: "<<endl;
-                 cin>>denominacion;
-                 //cliente->enviar(denominacion);
-                 //cliente->recibir();
+                    bool bandera=true;
+                    char opcion;
+                    char denominacion[50];
+                    while(bandera)
+                    {
+                        cout<<"Crear Tipo de Medicamento"<<endl;
+                        cout<<"Por favor ingrese la denominacion: "<<endl;
+                        cin>>denominacion;
+                        //cliente->enviar(denominacion);
+                        //cliente->recibir();
+                        cout<<"Crear otro medicamento? s | n : ";
+                        cin>>opcion;
+                        if(opcion == 'n')
+                        {
+                            bandera=false;
+                            system("pause");
+                        }
+                        else
+                        {
+                            system("pause");
+                        }//fin if
+
+
+                    }//fin while
                 };
                 break;
                 case 2:
                 {
-
                     char denominacion[50], estado[3], id[20];
+                    bool bandera=true;
 
-                    cout<<"Administrar Tipo de Medicamento"<<endl;
-                    cout<<"Por favor ingrese los criterios de busqueda"<<endl;
-                    cout<<"Si no se desea aplicar el filtro escribir '@' "<<endl;
 
-                    cout<<"Id: ";
-                    cin>>id;
+                    while(bandera)// while 1
+                    {
+                        cout<<"Administrar Tipo de Medicamento"<<endl;
+                        cout<<"Por favor ingrese los criterios de busqueda"<<endl;
+                        cout<<"Si no se desea aplicar el filtro escribir '@' "<<endl;
 
-                    cout<<endl<<"Denominacion: ";
-                    cin>>denominacion;
+                        cout<<"Id: ";
+                        cin>>id;
 
-                    cout<<endl<<"Estado(s | n): ";
-                    cin>>estado;
-                    //administrar
+                        cout<<endl<<"Denominacion: ";
+                        cin>>denominacion;
+
+                        cout<<endl<<"Estado(s | n): ";
+                        cin>>estado;
+
+                        //Cliente->enviar(id,denominacion,estado);
+                        //char mensaje[1000] = Cliente->recibir();
+                        /*if(mensaje==NULL);{ //if 1
+                            cout<<No se encontró ningún resultado para los criterios seleccionados. Presione ENTER para continuar<<endl;
+                            system("pause");
+                        }else{
+                            bool banderaAuxiliar=true;
+                            while(banderaAuxiliar){ //while 2
+
+                            cout<<decodificar(mensaje)<<endl;
+
+                            cout<<"Elegir por ID el Tipo de Medicamento a modificar"<<endl;
+                            cout<<"Si no se desea modificar el campo escribir '@' "<<endl;
+
+                            cout<<"Ingresar ID: "
+                            cinn>>id;
+
+                            cout<<endl<<"Ingresar denominacion nueva: ";
+                            cin>>denominacion;
+
+                            cout<<endl<<"Ingresar estado nuevo s - alta | n - baja): ";
+                            cin>>estado;
+
+                            char confirmacion;
+                            cout<<"¿Desea guardar los cambios? s | n : ";
+                            cin>>confirmacion;
+
+                            if(confirmacion=='s'){//if 2
+                                Cliente->enviar(id,denominacion,estado); //aca tengo que enviar los datos a modificar, me falta agregar algo para que cuando lo envie el servidor entienda que hay que modificar el tipo
+                                char mensaje2[50] = Cliente->recibir(); //aca recibo la respuesta, si se pudo modificar o no
+
+                                if(mensaje2 == NULL){ //if 3
+                                    cout<<"No se pudo modificar el tipo de medicamento la denominacion se encuentra repetida, intentelo otra vez"<<endl;
+                                }else{
+                                    cout<<mensaje2<<enld
+                                    banderaAuxiliar=false;
+                                }//fin if 3
+
+                            }//fin if 2
+
+                            }//fin while 2
+
+                        }fin if 1
+                            */
+
+
+                        char opcion;
+                        cout<<"Administrar otro tipo de medicamento? s | n : ";
+                        cin>>opcion;
+                        if(opcion == 'n')
+                        {
+                            bandera=false;
+                            system("pause");
+                        }
+                        else
+                        {
+                            system("pause");
+                        }//fin if
+
+                    }//fin while 1
                 };
-                break;
+                break;//fin caso 2
                 case 3:
                 {
+
                     cout<<"Desea volver atras? 1-si | 2-no"<<endl;
                     cin>>submenu;
                     //convierto la variable a string
@@ -128,7 +210,7 @@ int main()
 
         };
         break;//fin caso 1 Menu principal********************************
-        case 2:
+        case 2:// MEDICAMENTO
         {
             //SUBMENU  MEDICAMENTO********************************
             system("cls");
