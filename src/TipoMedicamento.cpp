@@ -4,12 +4,26 @@
 
 using namespace std;
 
-class TipoMedicamento{
-    //privado por defecto
+class TipoMedicamento
+{
+private:
+    // atributos
     bool activo;
-    string denominacion;
+    char denominacion[20];
     int id;
 
+public:
+    // constructor
+    TipoMedicamento(bool *activo, char *denominacion[20], int *id)
+    {
+        this.activo=activo;
+        this.denominacion=denominacion;
+        this.id=id;
+    }
+    // destructor
+    ~TipoMedicamento();
+
+    //getters y setters
 
 
 };

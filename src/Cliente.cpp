@@ -6,8 +6,9 @@ using namespace std;
 class Cliente
 {
 public:
+    //atributos
     WSADATA wsaData;
-    SOCKET server;
+    SOCKET server;//creo socket server
     SOCKADDR_IN addr;
     char buffer[1024];
 
@@ -16,10 +17,11 @@ public:
         WSAStartup(MAKEWORD(2,0), &wsaData);
         server = socket(AF_INET, SOCK_STREAM, 0);
 
-        addr.sin_addr.s_addr = inet_addr("192.168.1.33");
+        addr.sin_addr.s_addr = inet_addr("192.168.56.1");
         addr.sin_family = AF_INET;
         addr.sin_port = htons(5555);
 
+        //conectarse al servidor
         connect(server, (SOCKADDR *)&addr, sizeof(addr));
         cout<<"Conectado al servidor"<<endl;
     }
@@ -40,7 +42,7 @@ public:
         memset(buffer, 0, sizeof(buffer));
     }
 
-    void cerrar()
+    void cerrarSocket()
     {
         closesocket(server);
         WSACleanup();

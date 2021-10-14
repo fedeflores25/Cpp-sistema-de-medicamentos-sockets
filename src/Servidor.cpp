@@ -8,7 +8,7 @@ class Servidor
 public:
     //Atributos
     WSADATA wsaData;
-    SOCKET server, cliente;
+    SOCKET server, cliente;//creo sockets server y cliente
     SOCKADDR_IN serverAddr, clienteAddr;
     char buffer[1024];
     Server()
@@ -20,12 +20,13 @@ public:
         serverAddr.sin_family = AF_INET;
         serverAddr.sin_port = htons(5555);
 
-        bind(server,(SOCKADDR *)&serverAddr,sizeof(serverAddr));
-        listen(server, 0);
+        bind(server,(SOCKADDR *)&serverAddr,sizeof(serverAddr));//asigna ip y numero de puerto
+        listen(server, 0); //asigna el socket como servidor
         cout<<"Escuchando conexiones entrantes..."<<endl;
         int clientAddrSize = sizeof(clienteAddr);
-        cliente = accept(server,(SOCKADDR *)&clienteAddr,&clientAddrSize);
-        if(cliente != INVALID_SOCKET)
+
+        //aceptar conexion
+        if(accept(server,(SOCKADDR *)&clienteAddr,&clientAddrSize) != INVALID_SOCKET)
         {
             cout<<"Cliente conectado"<<endl;
         }
