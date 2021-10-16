@@ -12,19 +12,17 @@ public:
     SOCKADDR_IN servidorDireccion, clienteDireccion; //obtengo direccion para el servidor y el cliente. SOCKADDR significa Socket Address
 
     char buffer[1024];
-    int puerto = 5555;
+    int puerto;
 
-    Servidor()
+    Servidor(int puerto)
     {
         //CREACION DEL SERVIDOR
         WSAStartup(MAKEWORD(2,0),&wsaData);// Me parece que es para compatibilizar con la lib winsock2.h
 
         servidor = socket(AF_INET,SOCK_STREAM,0);//estos argumentos que le paso quieren decir que va a usar el protocolo tcp/ip
 
-
-        //Le digo al servidor que escuche en cualquiera de las interfaces del sistema operativo
-        servidorDireccion.sin_addr.s_addr = INADDR_ANY;
-        servidorDireccion.sin_family = AF_INET;
+        servidorDireccion.sin_addr.s_addr = INADDR_ANY;//Le digo al servidor que escuche en cualquiera de las interfaces del sistema operativo
+        servidorDireccion.sin_family = AF_INET; //asigna ip
         servidorDireccion.sin_port = htons(puerto);//le asigno el numero de puerto al servidor
 
         //Ahora tengo que asociar A (direccion ip y el puerto del servidor)
@@ -60,7 +58,13 @@ public:
     //METODOS
     void recibir()
     {
-        recv(cliente, buffer,sizeof(buffer),0);
+        int bytesRecibidos = recv(cliente, buffer,sizeof(buffer),0);
+        //en caso de error agregamos este if
+        if(bytesRecibidos <= 0)
+        {
+            perror("El cliente se desconecto");
+            return 1;
+        }
         cout<<"El cliente dice: "<<buffer<<endl;
         memset(buffer,0,sizeof(buffer));
     }

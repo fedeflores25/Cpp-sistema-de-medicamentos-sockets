@@ -11,15 +11,17 @@ public:
     SOCKET server;//creo socket server
     SOCKADDR_IN addr;
     char buffer[1024];
+    char ip[20];
+    int puerto;
 
-    Cliente()
+    Cliente(int puerto, char ip[20])
     {
         WSAStartup(MAKEWORD(2,0), &wsaData);
         server = socket(AF_INET, SOCK_STREAM, 0);
 
-        addr.sin_addr.s_addr = inet_addr("192.168.56.1");
-        addr.sin_family = AF_INET;
-        addr.sin_port = htons(5555);
+        addr.sin_addr.s_addr = inet_addr(ip);// ile digo que escuche en una ip especifica para conectarme
+        addr.sin_family = AF_INET;//asigna la ip del cliente
+        addr.sin_port = htons(puerto); //puerto al cual conectarme
 
         //conectarse al servidor
         connect(server, (SOCKADDR *)&addr, sizeof(addr));
