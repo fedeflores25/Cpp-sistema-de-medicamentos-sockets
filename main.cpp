@@ -238,13 +238,40 @@ int main()
 
                 switch(varSubMenu)
                 {
-                case 1: //crear
+                case 1:
+                {
+                    bool bandera=true;
+                    char opcion;
+                    char denominacion[50];
+                    while(bandera)
+                    {
+                        cout<<"Crear Medicamento"<<endl;
+                        cout<<"Por favor ingrese la denominacion: "<<endl;
+                        cin>>denominacion;
+                        //cliente->enviar(denominacion);
+                        //cliente->recibir();
+                        cout<<"Crear otro medicamento? s | n : ";
+                        cin>>opcion;
+                        if(opcion == 'n')
+                        {
+                            bandera=false;
+                            system("pause");
+                        }
+                        else
+                        {
+                            system("pause");
+                        }//fin if
+
+
+                    }//fin while
+
+
+                };
+                break; //fin caso 1
+                case 2: //administrar medicamento
                     ;
                     break;
-                case 2: //administrar
-                    ;
-                    break;
-                case 3:
+                case 3: // volver atras
                 {
                     cout<<"Desea volver atras? 1-si | 2-no"<<endl;
                     cin>>submenu;

@@ -36,9 +36,7 @@
 		</Compiler>
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Cliente.cpp" />
-		<Unit filename="src/Medicamento.cpp" />
 		<Unit filename="src/Servidor.cpp" />
-		<Unit filename="src/TipoMedicamento.cpp" />
 		<Unit filename="testCliente.cpp" />
 		<Unit filename="testServer.cpp" />
 		<Extensions />

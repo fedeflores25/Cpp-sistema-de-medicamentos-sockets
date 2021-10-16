@@ -8,29 +8,55 @@ class Servidor
 public:
     //Atributos
     WSADATA wsaData;
-    SOCKET server, cliente;//creo sockets server y cliente
-    SOCKADDR_IN serverAddr, clienteAddr;
+    SOCKET servidor, cliente;//creo sockets servidor y cliente
+    SOCKADDR_IN servidorDireccion, clienteDireccion; //obtengo direccion para el servidor y el cliente. SOCKADDR significa Socket Address
+
     char buffer[1024];
-    Server()
+    int puerto = 5555;
+
+    Servidor()
     {
-        WSAStartup(MAKEWORD(2,0),&wsaData);
-        server = socket(AF_INET,SOCK_STREAM,0);
+        //CREACION DEL SERVIDOR
+        WSAStartup(MAKEWORD(2,0),&wsaData);// Me parece que es para compatibilizar con la lib winsock2.h
 
-        serverAddr.sin_addr.s_addr = INADDR_ANY;
-        serverAddr.sin_family = AF_INET;
-        serverAddr.sin_port = htons(5555);
+        servidor = socket(AF_INET,SOCK_STREAM,0);//estos argumentos que le paso quieren decir que va a usar el protocolo tcp/ip
 
-        bind(server,(SOCKADDR *)&serverAddr,sizeof(serverAddr));//asigna ip y numero de puerto
-        listen(server, 0); //asigna el socket como servidor
+
+        //Le digo al servidor que escuche en cualquiera de las interfaces del sistema operativo
+        servidorDireccion.sin_addr.s_addr = INADDR_ANY;
+        servidorDireccion.sin_family = AF_INET;
+        servidorDireccion.sin_port = htons(puerto);//le asigno el numero de puerto al servidor
+
+        //Ahora tengo que asociar A (direccion ip y el puerto del servidor)
+        //con B (el Socket que creamos con el protocolo que voy a usar TCP/IP)
+
+
+        //cuando se cierra mal el servidor se puede producir un problema que cuelga el ip o el puerto
+        //setea un flag que le dice al sist operativo para que le permita reutilizar la conexion
+        int activado = 1;
+        setsockopt(servidor, SQL_SOCKET, SO_REUSEADDR,&activado, sizeof(activado));
+
+        //la funcion bind pide estructura (servidor, SOCKADDR, tamaño) y como usamos SOCKADDR _IN que es mas especifica la vamos a castear
+        //la funcion bind puede fallar(si otro proceso ya esta usando el mismo puerto), por eso hay que validarla
+        if (bind(servidor,(SOCKADDR *)&servidorDireccion,sizeof(servidorDireccion))!= 0)//asigna ip y numero de puerto con el socket servidor
+        {
+            perror("Fallo el bind");
+            return 1;
+        }
+        listen(servidor, 5); //asigna el socket como servidor y maximo de conexiones acumulables
+
+        //ESCUCHAR CONEXIONES Y ACEPTAR*****************************
+
         cout<<"Escuchando conexiones entrantes..."<<endl;
-        int clientAddrSize = sizeof(clienteAddr);
+        int clienteDireccionLongitud = sizeof(clienteDireccion);
 
         //aceptar conexion
-        if(accept(server,(SOCKADDR *)&clienteAddr,&clientAddrSize) != INVALID_SOCKET)
+        if(accept(servidor,(SOCKADDR *)&clienteDireccion,&clienteDireccionLongitud) != INVALID_SOCKET)
         {
             cout<<"Cliente conectado"<<endl;
         }
-    }//fin constructor del server
+    }//fin constructor del servidor
+
     //METODOS
     void recibir()
     {
@@ -42,7 +68,7 @@ public:
     {
         cout<<"Escribe el mensaje a enviar: "<<endl;
         cin>>this->buffer;
-        send(server,buffer,sizeof(buffer),0);
+        send(servidor,buffer,sizeof(buffer),0);
         memset(buffer, 0, sizeof(buffer));
     }
     void cerrarSocket()
@@ -52,4 +78,4 @@ public:
     }
 
 
-};//fin clase server
+};//fin clase servidor
