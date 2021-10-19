@@ -31,15 +31,14 @@ public:
 
         //cuando se cierra mal el servidor se puede producir un problema que cuelga el ip o el puerto
         //setea un flag que le dice al sist operativo para que le permita reutilizar la conexion
-        int activado = 1;
-        setsockopt(servidor, SQL_SOCKET, SO_REUSEADDR,&activado, sizeof(activado));
+        char activado = '1';
+        setsockopt(servidor, SOL_SOCKET, SO_REUSEADDR,&activado, sizeof(activado));
 
         //la funcion bind pide estructura (servidor, SOCKADDR, tamaño) y como usamos SOCKADDR _IN que es mas especifica la vamos a castear
         //la funcion bind puede fallar(si otro proceso ya esta usando el mismo puerto), por eso hay que validarla
         if (bind(servidor,(SOCKADDR *)&servidorDireccion,sizeof(servidorDireccion))!= 0)//asigna ip y numero de puerto con el socket servidor
         {
             perror("Fallo el bind");
-            return 1;
         }
         listen(servidor, 5); //asigna el socket como servidor y maximo de conexiones acumulables
 
@@ -63,10 +62,9 @@ public:
         if(bytesRecibidos <= 0)
         {
             perror("El cliente se desconecto");
-            return 1;
         }
         cout<<"El cliente dice: "<<buffer<<endl;
-        memset(buffer,0,sizeof(buffer));
+        memset(buffer,0,sizeof(buffer)); //resetear el buffer
     }
     void enviar()
     {

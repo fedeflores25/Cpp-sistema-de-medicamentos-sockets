@@ -9,7 +9,7 @@ public:
     //atributos
     WSADATA wsaData;
     SOCKET server;//creo socket server
-    SOCKADDR_IN addr;
+    SOCKADDR_IN direccion;
     char buffer[1024];
     char ip[20];
     int puerto;
@@ -19,13 +19,16 @@ public:
         WSAStartup(MAKEWORD(2,0), &wsaData);
         server = socket(AF_INET, SOCK_STREAM, 0);
 
-        addr.sin_addr.s_addr = inet_addr(ip);// ile digo que escuche en una ip especifica para conectarme
-        addr.sin_family = AF_INET;//asigna la ip del cliente
-        addr.sin_port = htons(puerto); //puerto al cual conectarme
+        direccion.sin_addr.s_addr = inet_addr(ip);// ile digo que escuche en una ip especifica para conectarme (ip del server)
+        direccion.sin_family = AF_INET;//asigna la ip del cliente
+        direccion.sin_port = htons(puerto); //puerto al cual conectarme (puerto del server)
 
         //conectarse al servidor
-        connect(server, (SOCKADDR *)&addr, sizeof(addr));
-        cout<<"Conectado al servidor"<<endl;
+       if( (connect(server, (SOCKADDR *)&direccion, sizeof(direccion))) != 0 ){
+        perror("No se pudo conectar o el servidor esta ocupado");
+       }else{
+       cout<<"Conectado al servidor"<<endl;}
+
     }
     // metodos
     void enviar()
@@ -34,7 +37,7 @@ public:
         cin>>this->buffer;
         send(server, buffer, sizeof(buffer), 0);
         cout<<"Mensaje enviado"<<endl;
-        memset(buffer, 0, sizeof(buffer));
+        memset(buffer, 0, sizeof(buffer)); //resetear el buffer
     }
 
     void recibir()
