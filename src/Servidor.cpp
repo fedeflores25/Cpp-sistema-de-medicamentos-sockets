@@ -38,32 +38,42 @@ public:
         //la funcion bind puede fallar(si otro proceso ya esta usando el mismo puerto), por eso hay que validarla
         if (bind(servidor,(SOCKADDR *)&servidorDireccion,sizeof(servidorDireccion))!= 0)//asigna ip y numero de puerto con el socket servidor
         {
-            perror("Fallo el bind");
+            cout<<("Fallo el bind, no se pudo levantar el servidor")<<endl;
         }
-        listen(servidor, 5); //asigna el socket como servidor y maximo de conexiones acumulables
-
-        //ESCUCHAR CONEXIONES Y ACEPTAR*****************************
-
-        cout<<"Escuchando conexiones entrantes..."<<endl;
-        int clienteDireccionLongitud = sizeof(clienteDireccion);
-
-        //aceptar conexion
-        if(accept(servidor,(SOCKADDR *)&clienteDireccion,&clienteDireccionLongitud) != INVALID_SOCKET)
+        else
         {
-            cout<<"Cliente conectado"<<endl;
+            listen(servidor, 5); //asigna el socket como servidor y maximo de conexiones acumulables
+
+            //ESCUCHAR CONEXIONES Y ACEPTAR*****************************
+
+            cout<<"Escuchando conexiones entrantes..."<<endl;
+            int clienteDireccionLongitud = sizeof(clienteDireccion);
+
+            //aceptar conexion
+            if(accept(servidor,(SOCKADDR *)&clienteDireccion,&clienteDireccionLongitud) != INVALID_SOCKET)
+            {
+                cout<<"Cliente conectado"<<endl;
+
+            }
+            else
+            {
+                cout<<"No se pudo conectar el cliente"<<endl;
+            }
         }
     }//fin constructor del servidor
 
     //METODOS
-    void recibir()
+    char* recibir()
     {
         int bytesRecibidos = recv(cliente, buffer,sizeof(buffer),0);
         //en caso de error agregamos este if
         if(bytesRecibidos <= 0)
         {
-            perror("El cliente se desconecto");
+            cout<<("El cliente se desconecto")<<endl;
         }
-        cout<<"El cliente dice: "<<buffer<<endl;
+
+        return this->buffer;
+
         memset(buffer,0,sizeof(buffer)); //resetear el buffer
     }
     void enviar()
@@ -73,6 +83,14 @@ public:
         send(servidor,buffer,sizeof(buffer),0);
         memset(buffer, 0, sizeof(buffer));
     }
+
+    void enviar(const char *mensaje)
+    {
+        strcpy(buffer, mensaje);
+        send(servidor,buffer,sizeof(buffer),0);
+        memset(buffer, 0, sizeof(buffer));
+    }
+
     void cerrarSocket()
     {
         closesocket(cliente);

@@ -2,25 +2,31 @@
 #include "src/Servidor.cpp"
 
 using namespace std;
-/*
-int testServer()
+
+int testServer(){
+
+Servidor *servidor = new Servidor(5555);
+
+if(servidor->recibir() == "l")
 {
-    Servidor *servidor = new Servidor();
-    int fly=0;
-    bool flybool=true;
-    while(flybool)
-    {
-        servidor->recibir();
-        servidor->enviar();
-        cout<<"Termino la comunicacion? 1-si 2-no"<<endl;
-        cin>>fly;
-        if(fly==1){
-            flybool = false;
-            servidor->cerrarSocket();
-        }
+    servidor->enviar("s");
 
-    }
+    //usuario
+    servidor->recibir();
+    //contrase;a
+    servidor->recibir();
 
-    return 0;
+    //funcion para buscar y comprobar usuario y contrase;a
+    servidor->enviar("c");
+
+
+
 }
-*/
+
+
+
+
+
+
+}
+

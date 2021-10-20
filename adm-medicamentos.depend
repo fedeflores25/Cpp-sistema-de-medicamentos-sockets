@@ -1,12 +1,12 @@
 # depslib dependency file v1.0
-1634296617 source:c:\users\administrator\desktop\git\adm-medicamentos\main.cpp
+1634678452 source:c:\users\administrator\desktop\git\adm-medicamentos\main.cpp
 	<iostream>
 	<sstream>
 	<string>
 	"src/Cliente.cpp"
 	"src/Servidor.cpp"
 
-1634426232 source:c:\users\administrator\desktop\git\adm-medicamentos\src\cliente.cpp
+1634737154 source:c:\users\administrator\desktop\git\adm-medicamentos\src\cliente.cpp
 	<iostream>
 	<winsock2.h>
 
@@ -15,7 +15,7 @@
 	<winsock2.h>
 	"TipoMedicamento.cpp"
 
-1634425225 source:c:\users\administrator\desktop\git\adm-medicamentos\src\servidor.cpp
+1634737132 source:c:\users\administrator\desktop\git\adm-medicamentos\src\servidor.cpp
 	<iostream>
 	<winsock2.h>
 
@@ -23,19 +23,19 @@
 	<iostream>
 	<winsock2.h>
 
-1634425225 c:\users\administrator\desktop\git\adm-medicamentos\src\servidor.cpp
+1634737132 c:\users\administrator\desktop\git\adm-medicamentos\src\servidor.cpp
 	<iostream>
 	<winsock2.h>
 
-1634426232 c:\users\administrator\desktop\git\adm-medicamentos\src\cliente.cpp
+1634737154 c:\users\administrator\desktop\git\adm-medicamentos\src\cliente.cpp
 	<iostream>
 	<winsock2.h>
 
-1634118447 source:c:\users\administrator\desktop\git\adm-medicamentos\testcliente.cpp
+1634676688 source:c:\users\administrator\desktop\git\adm-medicamentos\testcliente.cpp
 	<iostream>
 	"src/Cliente.cpp"
 
-1634127824 source:c:\users\administrator\desktop\git\adm-medicamentos\testserver.cpp
+1634737552 source:c:\users\administrator\desktop\git\adm-medicamentos\testserver.cpp
 	<iostream>
 	"src/Servidor.cpp"
 

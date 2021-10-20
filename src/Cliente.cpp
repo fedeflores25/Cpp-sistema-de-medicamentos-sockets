@@ -24,10 +24,14 @@ public:
         direccion.sin_port = htons(puerto); //puerto al cual conectarme (puerto del server)
 
         //conectarse al servidor
-       if( (connect(server, (SOCKADDR *)&direccion, sizeof(direccion))) != 0 ){
-        perror("No se pudo conectar o el servidor esta ocupado");
-       }else{
-       cout<<"Conectado al servidor"<<endl;}
+        if( (connect(server, (SOCKADDR *)&direccion, sizeof(direccion))) != 0 )
+        {
+            cout<<("No se pudo conectar o el servidor esta ocupado")<<endl;
+        }
+        else
+        {
+            cout<<"Conectado"<<endl;
+        }
 
     }
     // metodos
@@ -40,10 +44,22 @@ public:
         memset(buffer, 0, sizeof(buffer)); //resetear el buffer
     }
 
-    void recibir()
+    void enviar(const char *mensaje)
+    {
+        strcpy(buffer, mensaje);
+
+        send(server, buffer, sizeof(buffer), 0);
+        cout<<"solicitud enviada"<<endl;
+        memset(buffer, 0, sizeof(buffer)); //resetear el buffer
+    }
+
+
+
+    char* recibir()
     {
         recv(server, buffer, sizeof(buffer),0);
-        cout<<"El servidor dice: "<<buffer<<endl;
+
+        return buffer;
         memset(buffer, 0, sizeof(buffer));
     }
 
