@@ -1,11 +1,15 @@
 #include <iostream>
-#include "src/Servidor.cpp"
+#include <sstream>
+#include <string>
+
+
+#include "Servidor.cpp"
 
 using namespace std;
 
-int testServer(){
-
-Servidor *servidor = new Servidor(5555);
+int main()
+{
+   Servidor *servidor = new Servidor(5555);
 
 if(servidor->recibir() == "l")
 {
@@ -19,14 +23,12 @@ if(servidor->recibir() == "l")
     //funcion para buscar y comprobar usuario y contrase;a
     servidor->enviar("c");
 
+    system("pause");
+    servidor->cerrarSocket();
 
 
 }
 
 
-
-
-
-
-}
+}//fin main
 

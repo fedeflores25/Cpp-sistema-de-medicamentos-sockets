@@ -1,11 +1,15 @@
 #include <iostream>
-#include "src/Cliente.cpp"
+#include <string>
+#include <sstream>
+#include "Cliente.cpp"
+
+
 
 using namespace std;
-/*
-int testCliente()
+
+int main()
 {
-    Cliente *cliente = new Cliente();
+    Cliente *cliente = new Cliente(5555, "192.168.1.122");
     cout<<"enviando"<<endl;
 
     while(true)
@@ -17,12 +21,14 @@ int testCliente()
     return 0;
 }
 
+
+/*
 //menu 2
 
-    Cliente *cliente = new Cliente();
+    //Cliente *cliente = new Cliente();
     //solicitud de conexion codigo 10 | ingresar puerto e ip
 
-    cliente->enviar(10);
+    //cliente->enviar(10);
     //respuesta si esta ocupado codigo 1 o tiene que ingresar contraseña codigo 2
     //cliente->recibir();
     //depende de la respuesta no hace nada o se prepara para ingresar contrase;a
@@ -133,8 +139,8 @@ int testCliente()
 
                         //Cliente->enviar(id,denominacion,estado);
                         //char mensaje[1000] = Cliente->recibir();
-                        /*if(mensaje==NULL);{ //if 1
-                            cout<<No se encontró ningún resultado para los criterios seleccionados. Presione ENTER para continuar<<endl;
+                        if(mensaje==NULL);{ //if 1
+                            cout<<"No se encontró ningún resultado para los criterios seleccionados. Presione ENTER para continuar"<<endl;
                             system("pause");
                         }else{
                             bool banderaAuxiliar=true;
@@ -337,12 +343,13 @@ int testCliente()
         system("pause");
         system("cls");
     }//fin while
+
     system("pause");
     return 0;
 
 
 
-
-
 */
+
+
 
