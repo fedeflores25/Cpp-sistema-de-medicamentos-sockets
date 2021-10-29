@@ -10,6 +10,8 @@ int main()
 {
     Servidor *servidor = new Servidor(5555);
 
+    cout<<servidor->fechaYHora()<<endl;
+
     servidor->aceptar();
 
 

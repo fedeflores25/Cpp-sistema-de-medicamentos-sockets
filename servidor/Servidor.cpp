@@ -1,6 +1,7 @@
 #include <iostream>
 #include <winsock2.h>
 #include <string>
+#include <time.h>
 
 using namespace std;
 
@@ -88,7 +89,13 @@ public:
         //en caso de error agrego este if
         if(bytesRecibidos == SOCKET_ERROR)
         {
+            if(WSAETIMEDOUT == WSAGetLastError())
+            {
+                cout << "La conexion expirado." << endl;
+
+            }
             cout<<("El cliente se desconecto")<<endl;
+            cerrarSocket();
         }
         string recibido = buffer;
         memset(buffer,'\0',strlen(buffer));
@@ -118,6 +125,18 @@ public:
         closesocket(cliente);
         WSACleanup();
         cout<<"Socket cerrado."<<endl;
+    }
+
+    string fechaYHora()
+    {
+        time_t ahora = time(0);
+        struct tm tstruct;
+        char fechaYHoraFinal[80];
+        tstruct = *localtime(&ahora);
+
+        strftime(fechaYHoraFinal, sizeof(fechaYHoraFinal), "%Y-%m-%d | %X", &tstruct);
+
+        return fechaYHoraFinal;
     }
 
 
