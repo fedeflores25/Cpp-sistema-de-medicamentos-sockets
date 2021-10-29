@@ -55,7 +55,7 @@ public:
 
 
 
-    char* recibir()
+    const char *recibir()
     {
         recv(server, buffer, sizeof(buffer),0);
 
