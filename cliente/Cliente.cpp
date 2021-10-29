@@ -27,27 +27,29 @@ public:
 
     }
     // metodos
-    /*
-    void enviar()
+
+    /*void enviar()
     {
 
         cout<<"Escribe el mensaje a enviar: "<<endl;
         cin>>this->buffer;
-        send(server, buffer, sizeof(buffer), 0);
+        send(servidor, buffer, sizeof(buffer), 0);
         cout<<"Mensaje enviado"<<endl;
         memset(buffer, '\0', strlen(buffer)); //resetear el buffer
-    }*/
+    }
+    */
+
     void conectarServidor()
     {
         //conectarse al servidor
-        if( (connect(servidor, (SOCKADDR *)&direccion, sizeof(direccion))) == 0 )
+        if( connect(servidor, (SOCKADDR *)&direccion, sizeof(direccion)) != INVALID_SOCKET )
         {
             cout<<"Conectado al servidor!"<<endl;
 
         }
         else
         {
-            cout<<("No se pudo conectar o el servidor esta ocupado")<<endl;
+            cout<<("Solo puede haber un cliente conectado a la vez, por favor intentelo mas tarde")<<endl;
         }
     }
 
@@ -62,12 +64,16 @@ public:
 
 
 
-    const char *recibir()
+    string recibir()
     {
-        recv(servidor, buffer, sizeof(buffer),0);
-
-        return buffer;
+        int bytesRecibidos = recv(servidor, buffer, sizeof(buffer),0);
+        if(bytesRecibidos == SOCKET_ERROR)
+        {
+            cout<<"El servidor se desconecto"<<endl;
+        }
+        string recibido = buffer;
         memset(buffer,'\0', strlen(buffer));
+        return recibido;
 
     }
 

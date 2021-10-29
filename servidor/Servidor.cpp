@@ -1,5 +1,6 @@
 #include <iostream>
 #include <winsock2.h>
+#include <string>
 
 using namespace std;
 
@@ -52,7 +53,7 @@ public:
         }
         else
         {
-            listen(servidor, SOMAXCONN); //asigna el socket como servidor y maximo de conexiones acumulables
+            listen(servidor, 0); //asigna el socket como servidor y maximo de conexiones acumulables
 
         }
     }//fin constructor del servidor
@@ -66,31 +67,32 @@ public:
         cout<<"Escuchando conexiones entrantes..."<<endl;
         int clienteDireccionLongitud = sizeof(clienteDireccion);
 
-        //aceptar conexion
-        if(accept(servidor,(SOCKADDR *)&clienteDireccion,&clienteDireccionLongitud) != INVALID_SOCKET)
+        //es importante asignar al cliente la aceptacion de conexion, si no estuviera seria lo mismo que no hacer el accept
+        if( (cliente = accept(servidor,(SOCKADDR *)&clienteDireccion,&clienteDireccionLongitud)) != INVALID_SOCKET)
         {
             cout<<"Cliente conectado"<<endl;
-            memset(buffer,'\0',strlen(buffer));
         }
         else
         {
             cout<<"No se pudo conectar el cliente"<<endl;
+
 
         }
     }
 
 
 
-    const char *recibir()
+    string recibir()
     {
         int bytesRecibidos = recv(cliente, buffer,sizeof(buffer),0);
         //en caso de error agrego este if
-        if(bytesRecibidos <= 0)
+        if(bytesRecibidos == SOCKET_ERROR)
         {
             cout<<("El cliente se desconecto")<<endl;
         }
-
-        return buffer;
+        string recibido = buffer;
+        memset(buffer,'\0',strlen(buffer));
+        return recibido;
 
     }
     /*void enviar()
@@ -105,8 +107,10 @@ public:
     void enviar(const char *mensaje)
     {
         strcpy(buffer, mensaje);
-        send(servidor,buffer,sizeof(buffer),0);
+        cout<<buffer<<endl;
+        send(cliente,buffer,sizeof(buffer),0);
         memset( buffer,'\0',strlen(buffer));
+        cout<<"Mensaje enviado"<<endl;
     }
 
     void cerrarSocket()
