@@ -23,6 +23,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Servidor.cpp" />
 		<Unit filename="main.cpp" />
 		<Extensions />
 	</Project>

@@ -3,3 +3,13 @@
 	<iostream>
 	<winsock2.h>
 
+1635196914 source:c:\users\administrator\desktop\git\adm-medicamentos\cliente\main.cpp
+	<iostream>
+	<string>
+	<sstream>
+	"Cliente.cpp"
+
+1635195434 c:\users\administrator\desktop\git\adm-medicamentos\cliente\cliente.cpp
+	<iostream>
+	<winsock2.h>
+

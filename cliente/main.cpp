@@ -8,7 +8,7 @@
 using namespace std;
 
 int main()
-{
+{   //"192.168.1.122"
     Cliente *cliente = new Cliente(5555, "192.168.1.122");
     cout<<"enviando"<<endl;
 

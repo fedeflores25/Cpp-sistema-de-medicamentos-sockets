@@ -41,7 +41,7 @@ public:
         cin>>this->buffer;
         send(server, buffer, sizeof(buffer), 0);
         cout<<"Mensaje enviado"<<endl;
-        memset(buffer, 0, sizeof(buffer)); //resetear el buffer
+        memset( buffer,'\0',strlen(buffer)); //resetear el buffer
     }
 
     void enviar(const char *mensaje)
@@ -50,7 +50,7 @@ public:
 
         send(server, buffer, sizeof(buffer), 0);
         cout<<"solicitud enviada"<<endl;
-        memset(buffer, 0, sizeof(buffer)); //resetear el buffer
+        memset( buffer,'\0',strlen(buffer)); //resetear el buffer
     }
 
 
@@ -60,7 +60,7 @@ public:
         recv(server, buffer, sizeof(buffer),0);
 
         return buffer;
-        memset(buffer, 0, sizeof(buffer));
+        memset(buffer,'\0',strlen(buffer));
     }
 
     void cerrarSocket()

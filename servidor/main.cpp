@@ -1,5 +1,4 @@
 #include <iostream>
-#include <sstream>
 #include <string>
 
 
@@ -9,26 +8,39 @@ using namespace std;
 
 int main()
 {
-   Servidor *servidor = new Servidor(5555);
+    string mensaje;
+    Servidor *servidor = new Servidor(5555);
 
-if(servidor->recibir() == "l")
-{
+    servidor->aceptar();
+
+
+    cout<<"mensaje "<<servidor->recibir()<<endl;
+
+    cout<<"paso por aca"<<endl;
+
     servidor->enviar("s");
 
-    //usuario
-    servidor->recibir();
-    //contrase;a
-    servidor->recibir();
+    system("pause");
+    if( mensaje == "l")
+    {
+        servidor->enviar("s");
 
-    //funcion para buscar y comprobar usuario y contrase;a
-    servidor->enviar("c");
+        //usuario
+        servidor->recibir();
+        //contrase;a
+        servidor->recibir();
+
+        //funcion para buscar y comprobar usuario y contrase;a
+        servidor->enviar("c");
+
+        system("pause");
+        servidor->cerrarSocket();
+
+
+    }
 
     system("pause");
-    servidor->cerrarSocket();
-
-
-}
-
+    return 0;
 
 }//fin main
 
