@@ -32,10 +32,10 @@ public:
         //cuando se cierra mal el servidor se puede producir un problema que cuelga el ip o el puerto
         //setea un flag que le dice al sist operativo para que le permita reutilizar la conexion
         int activado = 1;
-        setsockopt(servidor, SOL_SOCKET, SO_REUSEADDR,(const char *)activado, sizeof(activado));
+        setsockopt(servidor, SOL_SOCKET, SO_REUSEADDR,(const char *)&activado, sizeof(activado));
 
         int tiempoLimite = 120000;
-        if ( setsockopt(servidor, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tiempoLimite,sizeof(tiempoLimite) ) == SOCKET_ERROR )
+        if ( setsockopt(servidor, SOL_SOCKET, SO_RCVTIMEO, (const char *)&tiempoLimite,sizeof(tiempoLimite) ) == SOCKET_ERROR )
         {
             cout << "Error al querer usar setsockpot" << endl;
 
@@ -52,7 +52,7 @@ public:
         }
         else
         {
-            listen(servidor, 5); //asigna el socket como servidor y maximo de conexiones acumulables
+            listen(servidor, SOMAXCONN); //asigna el socket como servidor y maximo de conexiones acumulables
 
         }
     }//fin constructor del servidor
@@ -70,6 +70,7 @@ public:
         if(accept(servidor,(SOCKADDR *)&clienteDireccion,&clienteDireccionLongitud) != INVALID_SOCKET)
         {
             cout<<"Cliente conectado"<<endl;
+            memset(buffer,'\0',strlen(buffer));
         }
         else
         {
@@ -82,28 +83,28 @@ public:
 
     const char *recibir()
     {
-      int bytesRecibidos = recv(cliente, buffer,sizeof(buffer),0);
+        int bytesRecibidos = recv(cliente, buffer,sizeof(buffer),0);
         //en caso de error agrego este if
         if(bytesRecibidos <= 0)
         {
             cout<<("El cliente se desconecto")<<endl;
         }
 
-        memset( buffer,'\0',strlen(buffer));
         return buffer;
+
     }
-    void enviar()
+    /*void enviar()
     {
         cout<<"Escribe el mensaje a enviar: "<<endl;
         cin>>this->buffer;
+         fflush(stdin);
         send(servidor,buffer,sizeof(buffer),0);
         memset(buffer,'\0',strlen(buffer));
-    }
+    }*/
 
     void enviar(const char *mensaje)
     {
         strcpy(buffer, mensaje);
-
         send(servidor,buffer,sizeof(buffer),0);
         memset( buffer,'\0',strlen(buffer));
     }
@@ -111,7 +112,8 @@ public:
     void cerrarSocket()
     {
         closesocket(cliente);
-        cout<<"Cliente desconectado, socket cerrado."<<endl;
+        WSACleanup();
+        cout<<"Socket cerrado."<<endl;
     }
 
 

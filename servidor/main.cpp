@@ -16,13 +16,14 @@ int main()
 
     cout<<"mensaje "<<servidor->recibir()<<endl;
 
-    cout<<"paso por aca"<<endl;
+
 
     servidor->enviar("s");
 
     system("pause");
     if( mensaje == "l")
     {
+        cout<<"paso por aca"<<endl;
         servidor->enviar("s");
 
         //usuario
@@ -32,12 +33,10 @@ int main()
 
         //funcion para buscar y comprobar usuario y contrase;a
         servidor->enviar("c");
+    }
 
         system("pause");
         servidor->cerrarSocket();
-
-
-    }
 
     system("pause");
     return 0;
