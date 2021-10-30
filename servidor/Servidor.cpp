@@ -2,6 +2,7 @@
 #include <winsock2.h>
 #include <string>
 #include <time.h>
+#include <fstream>
 
 using namespace std;
 
@@ -54,8 +55,13 @@ public:
         }
         else
         {
-            listen(servidor, 0); //asigna el socket como servidor y maximo de conexiones acumulables
+            string auxPuerto = to_string(puerto);
 
+            listen(servidor, 0); //asigna el socket como servidor y maximo de conexiones acumulables
+            editarServerLog(fechaYHora()+": =============================");
+            editarServerLog(fechaYHora()+": =======Inicia Servidor=======");
+            editarServerLog(fechaYHora()+": =============================");
+            editarServerLog(fechaYHora()+": Socket creado. Puerto de escucha: "+auxPuerto);
         }
     }//fin constructor del servidor
 
@@ -72,6 +78,9 @@ public:
         if( (cliente = accept(servidor,(SOCKADDR *)&clienteDireccion,&clienteDireccionLongitud)) != INVALID_SOCKET)
         {
             cout<<"Cliente conectado"<<endl;
+            editarServerLog(fechaYHora()+": =============================");
+            editarServerLog(fechaYHora()+": =======Cliente conectado=======");
+            editarServerLog(fechaYHora()+": =============================");
         }
         else
         {
@@ -92,9 +101,15 @@ public:
             if(WSAETIMEDOUT == WSAGetLastError())
             {
                 cout << "La conexion expirado." << endl;
+                editarServerLog(fechaYHora()+": =============================");
+                editarServerLog(fechaYHora()+": =======La conexion expiro=======");
+                editarServerLog(fechaYHora()+": =============================");
 
             }
             cout<<("El cliente se desconecto")<<endl;
+            editarServerLog(fechaYHora()+": =============================");
+            editarServerLog(fechaYHora()+": =======El cliente se desconecto=======");
+            editarServerLog(fechaYHora()+": =============================");
             cerrarSocket();
         }
         string recibido = buffer;
@@ -125,6 +140,9 @@ public:
         closesocket(cliente);
         WSACleanup();
         cout<<"Socket cerrado."<<endl;
+        editarServerLog(fechaYHora()+": =============================");
+        editarServerLog(fechaYHora()+": =======Socket cerrado.=======");
+        editarServerLog(fechaYHora()+": =============================");
     }
 
     string fechaYHora()
@@ -138,6 +156,116 @@ public:
 
         return fechaYHoraFinal;
     }
+
+    string mostrarServerLog()
+    {
+        string linea,texto;
+
+        ifstream archivo("server.log.txt");
+
+        //recorre el archivo y guarda cada linea en la variable texto
+        while (getline(archivo, linea))
+        {
+            texto=texto+linea+"\n";
+        }
+        archivo.close();
+        return texto;
+    }
+
+    void editarServerLog(string linea)
+    {
+        string texto = mostrarServerLog();
+
+        ofstream archivo("server.log.txt");
+        archivo<<texto<<linea;
+    }
+
+    bool esCorrectoUsuarioYClave(string usuario, string clave)
+    {
+        string linea,texto;
+        string datos[2];
+        int contador=0;
+        size_t posicion;
+        bool bandera=false;
+
+        fstream archivo("usuarios.txt");
+
+        //recorre el archivo y guarda cada linea en la variable texto
+        while (getline(archivo, linea))
+        {
+
+            while( (posicion=linea.find(";")) != string::npos  )
+            {
+                cout<<"segundo while"<<endl;
+
+                datos[contador]=linea.substr(0,posicion);
+                datos[contador+1]=linea.substr(posicion+1,linea.length());
+
+                linea.erase(0,linea.length());
+            }
+            if(datos[contador]==usuario)
+            {
+                break;
+            }
+        }
+
+        if((datos[contador]==usuario) && (datos[contador+1]==clave))
+        {
+            bandera=true;
+        }
+
+        archivo.close();
+        return bandera;
+    }
+
+    bool login(Servidor *servidor)
+{
+    int contador = 0;
+    bool bandera = false;
+
+    while(contador<=3)
+    {
+
+        //codigo l | es una L en minuscula, con este codigo se puede proceder a realizar el login
+        if(  servidor->recibir() == "l")
+        {
+            servidor->enviar("s");
+
+            //usuario
+            string usuario = servidor->recibir();
+            cout<<"Usuario: "<<usuario<<endl;
+            //contrase;a
+            string clave = servidor->recibir();
+            cout<<"Clave: "<<clave<<endl;
+
+            if(usuario.length()<=12)
+            {
+                if(servidor->esCorrectoUsuarioYClave(usuario,clave) == true)
+                {
+                    bandera = true;
+                    //si pasa estas validaciones puede acceder al menu
+                }
+                else
+                {
+                    contador++;
+                    //el codigo n | significa que el usuario y la contrase;a ingresados no son correctos
+                    servidor->enviar("n");
+                }
+            }
+            else
+            {
+                contador++;
+                //el codigo x | significa que el usuario ingresado tiene mas de 12 caracteres
+                servidor->enviar("x");
+            }//fin if caracteres menores a 12
+
+        }// fin if codigo de login l
+
+    }//fin while login
+
+
+    return bandera;
+}//
 
 
 };//fin clase servidor

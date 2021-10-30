@@ -13,19 +13,13 @@ int main()
     cout<<servidor->fechaYHora()<<endl;
 
     servidor->aceptar();
-
-
-    if(  servidor->recibir() == "l")
+    //login
+    if(servidor->login(servidor) == true)
     {
-        servidor->enviar("s");
+    //el codigo c | significa logueo fue exitoso
+        servidor->enviar("c");
+    //respuestas al menu
 
-        //usuario
-        cout<<"Usuario: "<<servidor->recibir()<<endl;
-        //contrase;a
-        cout<<"Clave: "<<servidor->recibir()<<endl;
-
-        //funcion para buscar y comprobar usuario y contrase;a
-        //servidor->enviar("c");
     }
 
     system("pause");
@@ -35,4 +29,10 @@ int main()
     return 0;
 
 }//fin main
+
+
+
+
+
+
 

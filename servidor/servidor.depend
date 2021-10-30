@@ -1,18 +1,20 @@
 # depslib dependency file v1.0
-1635489507 source:c:\users\administrator\desktop\git\adm-medicamentos\servidor\main.cpp
+1635570964 source:c:\users\administrator\desktop\git\adm-medicamentos\servidor\main.cpp
 	<iostream>
 	<string>
 	"Servidor.cpp"
 
-1635490184 c:\users\administrator\desktop\git\adm-medicamentos\servidor\servidor.cpp
+1635571060 c:\users\administrator\desktop\git\adm-medicamentos\servidor\servidor.cpp
 	<iostream>
 	<winsock2.h>
 	<string>
 	<time.h>
+	<fstream>
 
-1635489462 source:c:\users\administrator\desktop\git\adm-medicamentos\servidor\servidor.cpp
+1635571284 source:c:\users\administrator\desktop\git\adm-medicamentos\servidor\servidor.cpp
 	<iostream>
 	<winsock2.h>
 	<string>
 	<time.h>
+	<fstream>
 
