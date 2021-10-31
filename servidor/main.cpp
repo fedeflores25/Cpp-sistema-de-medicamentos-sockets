@@ -1,7 +1,5 @@
 #include <iostream>
 #include <string>
-
-
 #include "Servidor.cpp"
 
 using namespace std;
@@ -16,14 +14,18 @@ int main()
     //login
     if(servidor->login(servidor) == true)
     {
-    //el codigo c | significa logueo fue exitoso
+        //el codigo c | significa logueo fue exitoso
         servidor->enviar("c");
-    //respuestas al menu
-
+        //respuestas al menu
+        servidor->menuServidor(servidor);
+        //si pasa estas validaciones puede acceder al menu
     }
-
-    system("pause");
-    servidor->cerrarSocket();
+    else
+    {
+        // el codigo e | significa que se supero el maximo de intentos permitidos
+        servidor->enviar("e");
+        servidor->cerrarSocket();
+    }
 
     system("pause");
     return 0;

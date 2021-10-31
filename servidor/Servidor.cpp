@@ -90,8 +90,6 @@ public:
         }
     }
 
-
-
     string recibir()
     {
         int bytesRecibidos = recv(cliente, buffer,sizeof(buffer),0);
@@ -117,6 +115,7 @@ public:
         return recibido;
 
     }
+
     /*void enviar()
     {
         cout<<"Escribe el mensaje a enviar: "<<endl;
@@ -219,53 +218,54 @@ public:
     }
 
     bool login(Servidor *servidor)
-{
-    int contador = 0;
-    bool bandera = false;
-
-    while(contador<=3)
     {
+        int contador = 0;
+        bool bandera = false;
 
-        //codigo l | es una L en minuscula, con este codigo se puede proceder a realizar el login
-        if(  servidor->recibir() == "l")
+        while(contador<=3)
         {
-            servidor->enviar("s");
 
-            //usuario
-            string usuario = servidor->recibir();
-            cout<<"Usuario: "<<usuario<<endl;
-            //contrase;a
-            string clave = servidor->recibir();
-            cout<<"Clave: "<<clave<<endl;
-
-            if(usuario.length()<=12)
+            //codigo l | es una L en minuscula, con este codigo se puede proceder a realizar el login
+            if(  servidor->recibir() == "l")
             {
-                if(servidor->esCorrectoUsuarioYClave(usuario,clave) == true)
+                servidor->enviar("s");
+
+                //usuario
+                string usuario = servidor->recibir();
+                cout<<"Usuario: "<<usuario<<endl;
+                //contrase;a
+                string clave = servidor->recibir();
+                cout<<"Clave: "<<clave<<endl;
+
+                if(usuario.length()<=12)
                 {
-                    bandera = true;
-                    //si pasa estas validaciones puede acceder al menu
+                    if(servidor->esCorrectoUsuarioYClave(usuario,clave) == true)
+                    {
+                        bandera = true;
+
+                    }
+                    else
+                    {
+                        contador++;
+                        //el codigo n | significa que el usuario y la contrase;a ingresados no son correctos
+                        servidor->enviar("n");
+                    }
                 }
                 else
                 {
                     contador++;
-                    //el codigo n | significa que el usuario y la contrase;a ingresados no son correctos
-                    servidor->enviar("n");
-                }
-            }
-            else
-            {
-                contador++;
-                //el codigo x | significa que el usuario ingresado tiene mas de 12 caracteres
-                servidor->enviar("x");
-            }//fin if caracteres menores a 12
+                    //el codigo x | significa que el usuario ingresado tiene mas de 12 caracteres
+                    servidor->enviar("x");
+                }//fin if caracteres menores a 12
 
-        }// fin if codigo de login l
+            }// fin if codigo de login l
 
-    }//fin while login
+        }//fin while login
 
 
-    return bandera;
-}//
+        return bandera;
+    }//
 
+    void menuServidor(Servidor *servidor) {}
 
 };//fin clase servidor
