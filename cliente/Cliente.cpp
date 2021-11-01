@@ -194,7 +194,7 @@ public:
                     if(cliente->recibir() == "z")
                     {
                         cout<<"Ya existe el tipo de medicamento"<<endl
-                        cout<<"Presione cualquier tecla para continuar"<<endl;
+                            cout<<"Presione cualquier tecla para continuar"<<endl;
                         system("pause");
 
 
@@ -206,7 +206,7 @@ public:
 
                         cout<<"Crear otro medicamento? s | n : ";
                         cin>>opcion;
-                        if(opcion == 'n')
+                        if(opcion == "n")
                         {
                             bandera=false;
                             cout<<"Presione cualquier tecla para continuar"<<endl;
@@ -224,13 +224,15 @@ public:
                 }//fin while
             };
             break;// fin caso 1
-            case 2:// ADMINISTRAR MEDICAMENTO
+            case 2:// ADMINISTRAR TIPO DE MEDICAMENTO
             {
                 char denominacion[50], estado[3], id[20];
                 bool bandera=true;
 
                 while(bandera)// while 1
                 {
+                    // el codigo i | le indica al servidor que vamos administrar un tipo de medicamento que se prepare
+                    cliente->enviar("i");
                     cout<<"Administrar Medicamento"<<endl;
                     cout<<"Por favor ingrese los criterios de busqueda"<<endl;
                     cout<<"Si no se desea aplicar el filtro escribir '@' "<<endl;
@@ -244,73 +246,97 @@ public:
                     cout<<endl<<"Estado(s | n): ";
                     cin>>estado;
 
-                    //Cliente->enviar(id,denominacion,estado);
-                    //char mensaje[1000] = Cliente->recibir();
-                    if(mensaje==NULL);
-                    //if 1
+                    //le envio al servidor los datos de mi filtro, en denominacion pueden ir letras o cadenas del texto de denominacion
+                    cliente->enviar(id);
+                    cliente->enviar(denominacion);
+                    cliente->enviar(estado);
+
+
+                    if(cliente->recibir() == "u")//en caso de no encontrarse el criterio de busqueda
                     {
                         cout<<"No se encontró ningún resultado para los criterios seleccionados. Presione ENTER para continuar"<<endl;
-                        system("pause");
+
                     }
-                    else
+                    else if(cliente->recibir() == "y")// si recibe el codigo y, significa que se encontraron resultados, que se prepare para recibir el texto
                     {
                         bool banderaAuxiliar=true;
-                        while(banderaAuxiliar)  //while 2
+                        // estos son los datos encontrados
+                        string datos = cliente->recibir();
+                        while(banderaAuxiliar)  //while para eleccion de dato a modificar
                         {
 
-                            cout<<decodificar(mensaje)<<endl;
+                            cout<<datos<<endl;
 
                             cout<<"Elegir por ID el Tipo de Medicamento a modificar"<<endl;
                             cout<<"Si no se desea modificar el campo escribir '@' "<<endl;
 
                             cout<<"Ingresar ID: "
-                                cinn>>id;
+                                cin>>id;
 
-                            cout<<endl<<"Ingresar denominacion nueva: ";
-                            cin>>denominacion;
-
-                            cout<<endl<<"Ingresar estado nuevo s - alta | n - baja): ";
-                            cin>>estado;
-
-                            char confirmacion;
-                            cout<<"¿Desea guardar los cambios? s | n : ";
-                            cin>>confirmacion;
-
-                            if(confirmacion=='s') //if 2
+                            cliente->enviar(id);
+                            if(cliente->recibir()=="p") //if para saber si el id ingresado existe
                             {
-                                Cliente->enviar(id,denominacion,estado); //aca tengo que enviar los datos a modificar, me falta agregar algo para que cuando lo envie el servidor entienda que hay que modificar el tipo
-                                char mensaje2[50] = Cliente->recibir(); //aca recibo la respuesta, si se pudo modificar o no
+                                cout<<endl<<"Ingresar denominacion nueva: ";
+                                cin>>denominacion;
 
-                                if(mensaje2 == NULL)  //if 3
+                                cout<<endl<<"Ingresar estado nuevo s - alta | n - baja): ";
+                                cin>>estado;
+
+                                string confirmacion;
+                                cout<<"¿Desea guardar los cambios? s | n : ";
+                                cin>>confirmacion;
+                                if(confirmacion=="s")
                                 {
-                                    cout<<"No se pudo modificar el tipo de medicamento la denominacion se encuentra repetida, intentelo otra vez"<<endl;
-                                }
-                                else
-                                {
-                                    cout<<mensaje2<<enld
+
+                                    cliente->enviar(denominacion); //aca tengo que enviar los datos a modificar, me falta agregar algo para que cuando lo envie el servidor entienda que hay que modificar el tipo
+                                    cliente->enviar(estado);
+                                    //aca recibo la respuesta, si se pudo modificar o no
+                                    if(cliente->recibir() == "j")  //if 3
+                                    {
+                                        cout<<"No se pudo modificar el tipo de medicamento, la denominacion se encuentra repetida, intentelo otra vez"<<endl;
+                                        cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                                        system("pause");
+                                        system("cls");
+                                    }
+                                    else if(cliente->recibir() == "k")
+                                    {
+                                        cout<<"Se modifico correctamente el medicamento"<<enld
+                                            cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                                        system("pause");
+                                        system("cls");
                                         banderaAuxiliar=false;
-                                }//fin if 3
+                                    }//fin if 3
+                                }//confirmacion de operacion
+                            }
+                            else if(cliente->recibir()=="v")
+                            {
+                                cout<<"El id ingresado no se encuentra en la lista"<<endl;
+                                cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                                system("pause");
+                                system("cls");
 
-                            }//fin if 2
+                            }
 
-                        }//fin while 2
+                        }//fin while 3
 
-                    }
-                    fin if 1
-
+                    }//fin while 2
 
 
-                    char opcion;
-                cout<<"Administrar otro tipo de medicamento? s | n : ";
-                cin>>opcion;
-                if(opcion == 'n')
+                    string opcion;
+                    cout<<"Administrar otro tipo de medicamento? s | n : ";
+                    cin>>opcion;
+                    if(opcion == "n")
                     {
                         bandera=false;
+                        cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
                         system("pause");
+                        system("cls");
                     }
                     else
                     {
+                        cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
                         system("pause");
+                        system("cls");
                     }//fin if
 
                 }//fin while 1
@@ -335,10 +361,12 @@ public:
             break;// fin caso 3
             default:
                 cout<<"No ingresaste una opcion valida, vuelve a intentarlo!"<<endl;
-                ;
             }//fin switch
+
+            cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
             system("pause");
             system("cls");
+
         }//fin while
 
     }

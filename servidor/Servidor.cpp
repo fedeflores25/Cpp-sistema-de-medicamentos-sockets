@@ -266,6 +266,10 @@ public:
         return bandera;
     }//
 
-    void menuServidor(Servidor *servidor) {}
+    void menuServidor(Servidor *servidor) {
+
+
+
+    }
 
 };//fin clase servidor

@@ -4,14 +4,14 @@
 	<string>
 	"Servidor.cpp"
 
-1635663630 c:\users\administrator\desktop\git\adm-medicamentos\servidor\servidor.cpp
+1635742729 c:\users\administrator\desktop\git\adm-medicamentos\servidor\servidor.cpp
 	<iostream>
 	<winsock2.h>
 	<string>
 	<time.h>
 	<fstream>
 
-1635663630 source:c:\users\administrator\desktop\git\adm-medicamentos\servidor\servidor.cpp
+1635742729 source:c:\users\administrator\desktop\git\adm-medicamentos\servidor\servidor.cpp
 	<iostream>
 	<winsock2.h>
 	<string>
