@@ -28,6 +28,9 @@ public:
 
     }
 
+    //DESTRUCTOR
+    ~Cliente(){}
+
     // METODOS*******************************************************
 
     void conectarServidor()
@@ -67,10 +70,11 @@ public:
 
     }
 
-    void cerrarSocket()
+    void cerrarSocket(Cliente *cliente)
     {
         closesocket(servidor);
         WSACleanup();
+        cliente->~Cliente();
         cout<<"Socket cerrado"<<endl;
     }
 
@@ -117,6 +121,7 @@ public:
             break;// fin caso 2 Menu principal *********************************
             case 3:// VER REGISTRO DE ACTIVIDADES
             {
+                cliente->enviar("5");
                 //perdirle al servidor el archivo binario
                 //recibir el archivo binario
                 //llamar metodo de mostrar registro archivo binario
@@ -134,6 +139,8 @@ public:
                 geek >> varMenu;
                 if(varMenu==1)
                 {
+                    cliente->enviar("6");
+                    cliente->cerrarSocket(cliente);
                     banderaMenu=false;
                     cout<<"Adios";
                 }
@@ -141,13 +148,14 @@ public:
             break;// fin caso 4**********************************************
             default:
                 cout<<"No ingresaste una opcion valida, vuelve a intentarlo!"<<endl;
+                system("pause");
+                system("cls");
 
             }// fin switch
-            system("pause");
-            system("cls");
+
         }// fin while
 
-    }
+    }//fin menu principal
 
     // MENU TIPO MEDICAMENTO******************************************
     void menuTipoMedicamento(Cliente *cliente)
@@ -163,7 +171,7 @@ public:
         {
 
             // el codigo m | Avisa al servidor que vamos a trabajar con el menu tipo medicamento
-            cliente->enviar("m");
+
             cout<<"Sub-Menu Tipo de Medicamento"<<endl;
             cout<<"1 - Crear"<<endl;
             cout<<"2 - Administrar"<<endl;
@@ -186,8 +194,8 @@ public:
                 char denominacion[50];
                 while(bandera)
                 {
-                    // el codigo o | significa que vamos a crear un tipo de medicamento
-                    cliente->enviar("o");
+                    // el codigo 1 | significa que vamos a crear un tipo de medicamento
+                    cliente->enviar("1");
                     cout<<"Crear Tipo de Medicamento"<<endl;
                     cout<<"Por favor ingrese la denominacion: "<<endl;
                     cin>>denominacion;
@@ -196,7 +204,7 @@ public:
 
                     if(cliente->recibir() == "z")
                     {
-                        cout<<"Ya existe el tipo de medicamento"<<endl;
+                        cout<<cliente->recibir()<<endl;
                         cout<<"Presione cualquier tecla para continuar"<<endl;
                         system("pause");
 
@@ -240,8 +248,8 @@ public:
 
                 while(bandera)// while principal
                 {
-                    // el codigo i | le indica al servidor que vamos administrar un tipo de medicamento que se prepare
-                    cliente->enviar("i");
+                    // el codigo 2 | le indica al servidor que vamos administrar un tipo de medicamento que se prepare
+                    cliente->enviar("2");
                     cout<<"Administrar tipo de medicamento"<<endl;
                     cout<<"Por favor ingrese los criterios de busqueda"<<endl;
                     cout<<"Si no se desea aplicar el filtro escribir '@' "<<endl;
@@ -349,7 +357,6 @@ public:
                         system("pause");
                     }//fin if
 
-
                     string opcion;
                     cout<<"Administrar otro tipo de medicamento? s | n : ";
                     cin>>opcion;
@@ -389,17 +396,18 @@ public:
             break;// fin caso 3
             default:
                 cout<<"No ingresaste una opcion valida, vuelve a intentarlo!"<<endl;
+                cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                system("pause");
+                system("cls");
             }//fin switch
 
-            cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
-            system("pause");
-            system("cls");
+
 
         }//fin while
 
     }
 
-    // //MENU  MEDICAMENTO********************************
+    // MENU  MEDICAMENTO********************************
     void menuMedicamento(Cliente *cliente)
     {
         system("cls");
@@ -438,7 +446,8 @@ public:
                 char tipoMedicamento[50];
                 while(bandera)
                 {
-                    cliente->enviar("a");
+                    // el codigo 3 | le indica al servidor que vamos crear un  medicamento que se prepare
+                    cliente->enviar("3");
                     cout<<"Crear Medicamento"<<endl;
                     cout<<"Por favor ingrese el codigo de producto: "<<endl;
                     cin>>codigoProducto;
@@ -503,7 +512,8 @@ public:
 
                 while(bandera) //while principal
                 {
-                    cliente->enviar("t");
+                    // el codigo 4 | le indica al servidor que vamos administrar un tipo de medicamento que se prepare
+                    cliente->enviar("4");
                     cout<<"Administrar Medicamento"<<endl;
                     cout<<"Por favor ingrese los criterios de busqueda"<<endl;
                     cout<<"Si no se desea aplicar el filtro escribir '@' "<<endl;
@@ -690,11 +700,7 @@ public:
                     }//fin if
 
 
-
-
                 }//fin while principal
-
-
 
                 string opcion;
                 cout<<"Administrar otro medicamento? s | n : ";
@@ -714,10 +720,6 @@ public:
                 }//fin if
 
 
-
-
-
-
             };
             break;
             case 3: // volver atras
@@ -732,6 +734,9 @@ public:
                 {
                     banderaSubmenu=false;
                     cout<<"Adios"<<endl;
+                    cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                    system("pause");
+                    system("cls");
                 }//fin if
 
 
@@ -739,6 +744,9 @@ public:
             break;//fin caso 3
             default:
                 cout<<"No ingresaste una opcion valida, vuelve a intentarlo!"<<endl;
+                cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                system("pause");
+                system("cls");
                 ;
             }//fin switch
             system("pause");

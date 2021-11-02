@@ -3,6 +3,8 @@
 #include <string>
 #include <time.h>
 #include <fstream>
+#include <sstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -46,7 +48,6 @@ public:
             WSACleanup();
         }
 
-
         //la funcion bind pide estructura (servidor, SOCKADDR, tamaño) y como usamos SOCKADDR _IN que es mas especifica la vamos a castear
         //la funcion bind puede fallar(si otro proceso ya esta usando el mismo puerto), por eso hay que validarla
         if (bind(servidor,(SOCKADDR *)&servidorDireccion,sizeof(servidorDireccion))!= 0)//asigna ip y numero de puerto con el socket servidor
@@ -64,6 +65,9 @@ public:
             editarServerLog(fechaYHora()+": Socket creado. Puerto de escucha: "+auxPuerto);
         }
     }//fin constructor del servidor
+
+    //DESTRUCTOR
+    ~Servidor() {}
 
     //METODOS
 
@@ -138,9 +142,19 @@ public:
     {
         closesocket(cliente);
         WSACleanup();
-        cout<<"Socket cerrado."<<endl;
+        cout<<"Socket cliente cerrado."<<endl;
         editarServerLog(fechaYHora()+": =============================");
-        editarServerLog(fechaYHora()+": =======Socket cerrado.=======");
+        editarServerLog(fechaYHora()+": =======Socket cliente cerrado.=======");
+        editarServerLog(fechaYHora()+": =============================");
+    }
+
+    void cerrarSocketServidor()
+    {
+        closesocket(servidor);
+        WSACleanup();
+        cout<<"Socket servidor cerrado."<<endl;
+        editarServerLog(fechaYHora()+": =============================");
+        editarServerLog(fechaYHora()+": =======Socket servidor cerrado.=======");
         editarServerLog(fechaYHora()+": =============================");
     }
 
@@ -156,6 +170,14 @@ public:
         return fechaYHoraFinal;
     }
 
+    string convertirAMayusculas(string cadena)
+    {
+        transform(cadena.begin(), cadena.end(), cadena.begin(), [](unsigned char cadena)
+        {
+            return toupper(cadena);
+        });
+        return cadena;
+    }
     string mostrarServerLog()
     {
         string linea,texto;
@@ -266,10 +288,95 @@ public:
         return bandera;
     }//
 
-    void menuServidor(Servidor *servidor) {
+    void menuServidor(Servidor *servidor)
+    {
+
+        //capturo como cadena y convierto a int para evitar ingresos que no correspondan
+        int varSubMenu;
+        string submenu = servidor->recibir();
+        //convierto la variable a string
+        stringstream geek(submenu);
+        //transfiero el valor de geek a una variable de tipo int
+        geek >> varSubMenu;
+
+        switch(varSubMenu)
+        {
+        case 1:// CREAR TIPO DE MEDICAMENTO
+        {
+            string denominacion = servidor->recibir();
+
+            denominacion = convertirAMayusculas(denominacion);
+
+
+            if(existeDenominacion(denominacion) == false)
+            {
+
+                cout<<"El cliente ingreso una denominacion que no existe"<<endl;
+                cout<<"Se crea el tipo de medicamento"<<endl;
+
+                // ****> CREANDOTIPOMEDICAMENTO() ************************
+
+                //el codigo p, le confirma al cliente que el tipo de medicamento fue creado
+                servidor->enviar("p");
+                servidor->enviar("id");
+
+            }
+            else if(existeDenominacion(denominacion) == true)
+            {
+                cout<<"Error: El cliente ingreso una denominacion que ya existe"<<endl;
+                //codigo z indica al cliente que la denominacion esta repetida
+
+                servidor->enviar("z");
+                char mensaj[100];
+                strcpy(mensaj,("El tipo de medicamento "+denominacion+" ya existe, por favor ingrese otra denominación").c_str());
+                servidor->enviar(mensaj);
+            }
+            else
+            {
+                cout<<"Error: resultado inesperado"<<endl;
+            }
 
 
 
-    }
+
+        };
+        break;
+        case 2:// ADMINISTRAR TIPO DE MEDICAMENTO
+        {
+
+        };
+        break;//CREAR MEDICAMENTO
+        case 3:
+        {
+
+        };
+        break;
+        case 4://ADMINISTRAR MEDICAMENTO
+        {
+
+        };
+        break;
+        case 5://VER REGISTRO
+        {
+
+        };
+        break;
+        case 6://VER REGISTRO
+        {
+            servidor->cerrarSocket();
+        };
+        break;
+        default:
+            cout<<"Cliente ingreso opcion no valida, se le permite volver a intentarlo"<<endl;
+
+        }//fin switch
+    }// fin metodo menuServidor
+
+    bool existeDenominacion(string denominacion)
+    {
+
+        return false;
+    }//fin metodo existeDenominacion
+
 
 };//fin clase servidor

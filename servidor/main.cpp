@@ -8,6 +8,7 @@ int main()
 {
     Servidor *servidor = new Servidor(5555);
 
+
     cout<<servidor->fechaYHora()<<endl;
 
     servidor->aceptar();
@@ -26,6 +27,12 @@ int main()
         servidor->enviar("e");
         servidor->cerrarSocket();
     }
+
+
+
+
+    servidor->cerrarSocketServidor();
+    servidor->~Servidor();
 
     system("pause");
     return 0;
