@@ -326,8 +326,9 @@ public:
                 //codigo z indica al cliente que la denominacion esta repetida
 
                 servidor->enviar("z");
+                string cadena1 = "El tipo de medicamento "+denominacion+" ya existe, por favor ingrese otra denominación";
                 char mensaj[100];
-                strcpy(mensaj,("El tipo de medicamento "+denominacion+" ya existe, por favor ingrese otra denominación").c_str());
+                strcpy(mensaj,cadena1.c_str());
                 servidor->enviar(mensaj);
             }
             else
@@ -432,11 +433,64 @@ public:
         break;//CREAR MEDICAMENTO
         case 3:
         {
+            string codigoProducto = servidor->recibir();
+            string nombreComercial = servidor->recibir();
+            nombreComercial = convertirAMayusculas(nombreComercial);
+            string nombreDescripcionDroga = servidor->recibir();
+            string tipoMedicamento = servidor->recibir();
 
+
+
+            if( (esValido(nombreComercial, tipoMedicamento) == true) && (esCodigoProducto(codigoProducto) == true) )
+            {
+
+                //ARCHIVO BINARIO CREAR
+                servidor->enviar("b");
+                servidor->enviar("id del medicamento creado");
+            }
+            else if( esValido(nombreComercial, tipoMedicamento) == false )
+            {
+                servidor->enviar("w");
+                string cadena = "El medicamento "+nombreComercial+"-"+tipoMedicamento+" ya existe, por favor ingrese un Nombre Comercial y/o Tipo de medicamento diferente";
+                char mensaje1[100];
+                strcpy(mensaje1,cadena.c_str());
+                servidor->enviar(mensaje1);
+            }
+            else if(esCodigoProducto(codigoProducto) == false)
+            {
+                servidor->enviar("w");
+                string cadena = "El codigo de producto "+codigoProducto+" es incorrecto";
+                char mensaje1[100];
+                strcpy(mensaje1,cadena.c_str());
+                servidor->enviar(mensaje1);
+
+
+            }
+            else if((esValido(nombreComercial, tipoMedicamento) == false) && (esCodigoProducto(codigoProducto) == false))
+            {
+
+                servidor->enviar("w");
+                string cadena = "El medicamento "+nombreComercial+"-"+tipoMedicamento+" ya existe, por favor ingrese un Nombre Comercial y/o Tipo de medicamento diferente \n y el codigo de producto "+codigoProducto+" es incorrecto";
+                char mensaje1[100];
+                strcpy(mensaje1,cadena.c_str());
+                servidor->enviar(mensaje1);
+
+
+            }
+            else
+            {
+                servidor->enviar("w");
+                cout<<"ERROR: ocurrio una combinacion inesperada en las validaciones";
+                servidor->enviar("ERROR: ocurrio una combinacion inesperada en las validaciones");
+            }
+            //validar que se cumpla
         };
         break;
         case 4://ADMINISTRAR MEDICAMENTO
         {
+            string nombreComercial = servidor->recibir();
+            string tipoMedicamento = servidor->recibir();
+
 
         };
         break;
@@ -448,6 +502,7 @@ public:
         case 6://SALIR
         {
             servidor->cerrarSocket();
+
         };
         break;
         default:
@@ -485,10 +540,16 @@ public:
     }
 
 
-
-
     //METODOS INCOMPLETOS MEDICAMENTO
+    bool esValido(string nombreComercial, string tipoMedicamento)
+    {
+        return true;
+    }
 
+    bool esCodigoProducto(string codigoProducto)
+    {
+        return true;
+    }
 
 
 };//fin clase servidor

@@ -472,7 +472,7 @@ public:
 
                     if(cliente->recibir() == "w")
                     {
-                        cout<<"Ya existe el medicamento ingresado"<<endl;
+                        cout<<cliente->recibir()<<endl;
                         cout<<"Presione cualquier tecla para continuar"<<endl;
                         system("pause");
                     }
