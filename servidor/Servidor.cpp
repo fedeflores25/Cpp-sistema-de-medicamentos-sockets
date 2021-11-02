@@ -290,8 +290,6 @@ public:
 
     void menuServidor(Servidor *servidor)
     {
-
-        //capturo como cadena y convierto a int para evitar ingresos que no correspondan
         int varSubMenu;
         string submenu = servidor->recibir();
         //convierto la variable a string
@@ -315,6 +313,7 @@ public:
                 cout<<"Se crea el tipo de medicamento"<<endl;
 
                 // ****> CREANDOTIPOMEDICAMENTO() ************************
+                //guardar en binario
 
                 //el codigo p, le confirma al cliente que el tipo de medicamento fue creado
                 servidor->enviar("p");
@@ -333,16 +332,101 @@ public:
             }
             else
             {
-                cout<<"Error: resultado inesperado"<<endl;
+                cout<<"Error: resultado inesperado en la creacion de tipo medicamento"<<endl;
+                servidor->enviar("z");
+                servidor->enviar("opcion no valida en creacion tipo de medicamento");
             }
-
-
 
 
         };
         break;
         case 2:// ADMINISTRAR TIPO DE MEDICAMENTO
         {
+            string id = servidor->recibir();
+            string denominacion = servidor->recibir();
+            string estado = servidor->recibir();
+
+            if(encontrado(id,denominacion,estado) == true) //filtro para traer tipos de medicamentos
+            {
+                servidor->enviar("y");
+                //le envia los datos encontrados con esos criterios de busqueda
+
+                char mensa[1024];
+                strcpy(mensa,traerDatos(id,denominacion,estado).c_str());
+                servidor->enviar(mensa);
+
+                //recibe la id y comprueba que exista
+                if(existeiD(servidor->recibir()) == false)
+                {
+                    string cadena = "El tipo de medicamento que quiere modificar no se encuentra en esta busqueda";
+                    char mensaj[100];
+                    strcpy(mensaj,cadena.c_str());
+                    servidor->enviar(mensaj);
+
+                }
+                else if(existeiD(servidor->recibir()) == true)//caso que exista
+                {
+                    //el codigo j, le confirma al cliente que el id se encontro
+                    servidor->enviar("j");
+
+                    denominacion = servidor->recibir();
+                    estado = servidor->recibir();
+
+                    if(existeDenominacion(denominacion) == false)
+                    {
+
+                        cout<<"El cliente ingreso una denominacion que no existe"<<endl;
+                        cout<<"Se modifica el tipo de medicamento"<<endl;
+
+                        // ****> CREANDOTIPOMEDICAMENTO() ************************
+                        //guardar en binario
+
+                        //envia esto para confirmar la creacion
+                        servidor->enviar("tipo de medicamento creado (datos del medicamento)");
+
+                    }
+                    else if(existeDenominacion(denominacion) == true)
+                    {
+                        cout<<"Error: El cliente ingreso una denominacion que ya existe"<<endl;
+                        //codigo z indica al cliente que la denominacion esta repetida
+
+                        servidor->enviar("v");
+                        char mensaj[100];
+                        strcpy(mensaj,("El tipo de medicamento "+denominacion+" ya existe, por favor ingrese otra denominación").c_str());
+                        servidor->enviar(mensaj);
+                    }
+                    else
+                    {
+                        cout<<"Error: resultado inesperado en la modificacion de tipo medicamento"<<endl;
+                        servidor->enviar("v");
+                        servidor->enviar("opcion no valida en modificacion tipo de medicamento");
+                    }
+
+
+
+                }
+                else
+                {
+
+                    cout<<"Error: resultado inesperado en la creacion de tipo medicamento"<<endl;
+                    servidor->enviar("p");
+                    servidor->enviar("opcion no valida en seleccion del id de tipo de medicamento");
+
+                }
+
+            }
+            else if(encontrado(id,denominacion,estado) == false) // sino se encuentra devuelve el error
+            {
+                servidor->enviar("v");
+
+            }
+            else//comprobar lo inesperado
+            {
+
+                cout<<"Error: resultado inesperado en la busqueda de tipo medicamento"<<endl;
+                servidor->enviar("u");
+                servidor->enviar("opcion no valida en la busqueda tipo de medicamento");
+            }
 
         };
         break;//CREAR MEDICAMENTO
@@ -361,7 +445,7 @@ public:
 
         };
         break;
-        case 6://VER REGISTRO
+        case 6://SALIR
         {
             servidor->cerrarSocket();
         };
@@ -372,11 +456,39 @@ public:
         }//fin switch
     }// fin metodo menuServidor
 
+
+
+    //METODOS INCOMPLETOS TIPO MEDICAMENTO
     bool existeDenominacion(string denominacion)
     {
-
+        //busca en el archivo binario que haya un tip de medicamento con esa denominacion
         return false;
     }//fin metodo existeDenominacion
+
+    bool existeiD(string id)
+    {
+        //busca en el archivo binario que haya un tip de medicamento con esa denominacion
+        return false;
+    }//fin metodo existeDenominacion
+
+    string traerDatos(string id,string denominacion,string estado)
+    {
+        //metodo binario para traer datos por estos filtros
+        return "sssssss";
+    }
+
+    bool encontrado(string id,string denominacion,string estado)
+    {
+        //// ****> BUSCANDOTIPOMEDICAMENTO(string id,string denominacion,string estado) ************************
+        //guardar en binario
+        return true;
+    }
+
+
+
+
+    //METODOS INCOMPLETOS MEDICAMENTO
+
 
 
 };//fin clase servidor

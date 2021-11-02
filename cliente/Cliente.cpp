@@ -222,11 +222,13 @@ public:
                             bandera=false;
                             cout<<"Presione cualquier tecla para continuar"<<endl;
                             system("pause");
+                            system("cls");
                         }
                         else
                         {
                             cout<<"Presione cualquier tecla para continuar"<<endl;
                             system("pause");
+                            system("cls");
                         }//fin if
 
                     }//fin if que recibio "z" o recibio "p"
@@ -235,7 +237,8 @@ public:
                         cout<<"ERROR: respuesta inesperada del servidor"<<endl;
                         cout<<"Presione cualquier tecla para continuar"<<endl;
                         system("pause");
-                    }
+                        system("cls");
+                    }//fin if principal
 
 
                 }//fin while
@@ -271,7 +274,7 @@ public:
 
                     if(cliente->recibir() == "u")//en caso de no encontrarse el criterio de busqueda
                     {
-                        cout<<"No se encontró ningún resultado para los criterios seleccionados. Presione ENTER para continuar"<<endl;
+                        cout<<cliente->recibir()<<endl;
                         system("pause");
                         system("cls");
                     }
@@ -292,7 +295,7 @@ public:
                             cin>>id;
 
                             cliente->enviar(id);
-                            if(cliente->recibir()=="p") //if para saber si el id ingresado existe
+                            if(cliente->recibir()=="j") //if para saber si el id ingresado existe
                             {
                                 //modificar
                                 cout<<"Ingrese los datos a modificar, sino desea modificar ingrese @"<<endl;
@@ -352,7 +355,7 @@ public:
                     }
                     else
                     {
-                        cout<<"ERROR: respuesta inesperada del servidor"<<endl;
+                        cout<<cliente->recibir()<<endl;
                         cout<<"Presione cualquier tecla para continuar"<<endl;
                         system("pause");
                     }//fin if

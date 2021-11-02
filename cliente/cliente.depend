@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1635865136 source:c:\users\administrator\desktop\git\adm-medicamentos\cliente\cliente.cpp
+1635875878 source:c:\users\administrator\desktop\git\adm-medicamentos\cliente\cliente.cpp
 	<iostream>
 	<winsock2.h>
 	<fstream>
@@ -11,7 +11,7 @@
 	<sstream>
 	"Cliente.cpp"
 
-1635865136 c:\users\administrator\desktop\git\adm-medicamentos\cliente\cliente.cpp
+1635875878 c:\users\administrator\desktop\git\adm-medicamentos\cliente\cliente.cpp
 	<iostream>
 	<winsock2.h>
 	<fstream>
