@@ -33,6 +33,7 @@ public:
     void conectarServidor()
     {
         //conectarse al servidor
+
         if( connect(servidor, (SOCKADDR *)&direccion, sizeof(direccion)) != INVALID_SOCKET )
         {
             cout<<"Conectado al servidor!"<<endl;
@@ -237,11 +238,11 @@ public:
                 char denominacion[50], estado[3], id[20];
                 bool bandera=true;
 
-                while(bandera)// while 1
+                while(bandera)// while principal
                 {
                     // el codigo i | le indica al servidor que vamos administrar un tipo de medicamento que se prepare
                     cliente->enviar("i");
-                    cout<<"Administrar Medicamento"<<endl;
+                    cout<<"Administrar tipo de medicamento"<<endl;
                     cout<<"Por favor ingrese los criterios de busqueda"<<endl;
                     cout<<"Si no se desea aplicar el filtro escribir '@' "<<endl;
 
@@ -263,20 +264,21 @@ public:
                     if(cliente->recibir() == "u")//en caso de no encontrarse el criterio de busqueda
                     {
                         cout<<"No se encontró ningún resultado para los criterios seleccionados. Presione ENTER para continuar"<<endl;
-
+                        system("pause");
+                        system("cls");
                     }
                     else if(cliente->recibir() == "y")// si recibe el codigo y, significa que se encontraron resultados, que se prepare para recibir el texto
                     {
                         bool banderaAuxiliar=true;
                         // estos son los datos encontrados
                         string datos = cliente->recibir();
+
                         while(banderaAuxiliar)  //while para eleccion de dato a modificar
                         {
 
                             cout<<datos<<endl;
 
                             cout<<"Elegir por ID el Tipo de Medicamento a modificar"<<endl;
-                            cout<<"Si no se desea modificar el campo escribir '@' "<<endl;
 
                             cout<<"Ingresar ID: "<<endl;
                             cin>>id;
@@ -284,43 +286,43 @@ public:
                             cliente->enviar(id);
                             if(cliente->recibir()=="p") //if para saber si el id ingresado existe
                             {
-                                cout<<endl<<"Ingresar denominacion nueva: ";
+                                //modificar
+                                cout<<"Ingrese los datos a modificar, sino desea modificar ingrese @"<<endl;
+                                cout<<endl<<"Ingresar denominacion nueva: "<<endl;
                                 cin>>denominacion;
 
-                                cout<<endl<<"Ingresar estado nuevo s - alta | n - baja): ";
+                                cout<<endl<<"Ingresar estado nuevo s - alta | n - baja): "<<endl;
                                 cin>>estado;
 
                                 string confirmacion;
-                                cout<<"¿Desea guardar los cambios? s | n : ";
+                                cout<<"¿Desea guardar los cambios? s | n : "<<endl;
                                 cin>>confirmacion;
                                 if(confirmacion=="s")
                                 {
-
-                                    cliente->enviar(denominacion); //aca tengo que enviar los datos a modificar, me falta agregar algo para que cuando lo envie el servidor entienda que hay que modificar el tipo
+                                    //aca tengo que enviar los datos a modificar
+                                    cliente->enviar(denominacion);
                                     cliente->enviar(estado);
                                     //aca recibo la respuesta, si se pudo modificar o no
-                                    if(cliente->recibir() == "j")  //if 3
-                                    {
-                                        cout<<"No se pudo modificar el tipo de medicamento, la denominacion se encuentra repetida, intentelo otra vez"<<endl;
-                                        cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
-                                        system("pause");
-                                        system("cls");
-                                    }
-                                    else if(cliente->recibir() == "k")
-                                    {
-                                        cout<<"Se modifico correctamente el medicamento"<<endl;
-                                        cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
-                                        system("pause");
-                                        system("cls");
-                                        banderaAuxiliar=false;
-                                    }//fin if 3
-                                    else
-                                    {
-                                        cout<<"ERROR: respuesta inesperada del servidor"<<endl;
-                                        cout<<"Presione cualquier tecla para continuar"<<endl;
-                                        system("pause");
-                                    }
+
+                                    cout<<"Se modifico correctamente el medicamento"<<endl;
+                                    cout<<cliente->recibir()<<endl;
+                                    cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                                    system("pause");
+                                    system("cls");
+                                    banderaAuxiliar=false;
+
                                 }//confirmacion de operacion
+                                else
+                                {
+                                    //confirmar lo inesperado
+                                    cout<<"No se modifico el tipo medicamento"<<endl;
+                                    cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                                    system("pause");
+                                    system("cls");
+                                    banderaAuxiliar=false;
+
+
+                                }
                             }
                             else if(cliente->recibir()=="v")
                             {
@@ -365,7 +367,7 @@ public:
                         system("cls");
                     }//fin if
 
-                }//fin while 1
+                }//fin while principal
             };
             break;// fin caso 2
             case 3:// VOLVER AL ANTERIOR MENU
@@ -496,9 +498,201 @@ public:
             break; //fin caso 1
             case 2: // ADMINISTRAR MEDICAMENTO
             {
-                    bool bandera= false;
+                bool bandera= false;
+                char nombreComercial[50], tipoMedicamento[50], codigoProducto[20], descripcionDroga[50];
+
+                while(bandera) //while principal
+                {
+                    cliente->enviar("t");
+                    cout<<"Administrar Medicamento"<<endl;
+                    cout<<"Por favor ingrese los criterios de busqueda"<<endl;
+                    cout<<"Si no se desea aplicar el filtro escribir '@' "<<endl;
+
+                    cout<<"Nombre comercial: ";
+                    cin>>nombreComercial;
+
+                    cout<<endl<<"Tipo de medicamento: ";
+                    cin>>tipoMedicamento;
+
+                    cliente->enviar(nombreComercial);
+                    cliente->enviar(tipoMedicamento);
+
+                    //if principal
+                    if(cliente->recibir()=="g")
+                    {
+                        bool banderaAuxiliar=true;
+                        // estos son los datos encontrados
+                        string datos = cliente->recibir();
+
+                        while(banderaAuxiliar)
+                        {
+                            char id[20];
+                            cout<<datos<<endl;
+
+                            cout<<"Elegir por ID Medicamento a modificar o eliminar"<<endl;
+
+                            cout<<"Ingresar ID: "<<endl;
+                            cin>>id;
+
+                            cliente->enviar(id);
+
+                            if(cliente->recibir() == "r")//no encontrado
+                            {
+                                cout<<"El id ingresado no se encuentra en la lista"<<endl;
+                                cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                                system("pause");
+                                system("cls");
+
+                            }
+                            else if(cliente->recibir() == "q") //encontrado
+                            {
+                                bool banderin = true;
+
+                                while(banderin)
+                                {
+
+                                    int opcion = 0;
+                                    cout<<"Opciones"<<endl;
+                                    cout<<"1- Modificar"<<endl;
+                                    cout<<"2 - Eliminar"<<endl;
+
+                                    if(opcion==1)//modificar
+                                    {
+
+                                        cout<<"Ingrese los datos a modificar, sino desea modificar ingrese @"<<endl;
+                                        cout<<"Ingresar nombre comercial"<<endl;
+                                        cin>>nombreComercial;
+
+                                        cout<<"Ingresar codigo de producto"<<endl;
+                                        cin>>codigoProducto;
+
+                                        cout<<"Ingresar descripcion de la droga"<<endl;
+                                        cin>>descripcionDroga;
+
+                                        cout<<"Ingresar un tipo de medicamento EXISTENTE"<<endl;
+                                        cin>>tipoMedicamento;
+
+                                        string confirmacion;
+                                        cout<<"¿Desea modificar el medicamento? s | n : ";
+                                        cin>>confirmacion;
+                                        if(confirmacion == "s")
+                                        {
+                                            cliente->enviar("aa");
+
+                                            cliente->enviar(nombreComercial);
+                                            cliente->enviar(codigoProducto);
+                                            cliente->enviar(descripcionDroga);
+                                            cliente->enviar(tipoMedicamento);
+
+                                            cout<<"Se modifico correctamente el registro"<<endl;
+                                            cout<<cliente->recibir()<<endl;
+                                            cout<<"Presione cualquier tecla para continuar"<<endl;
+                                            system("pause");
+                                            system("cls");
+                                            banderin=false;
+                                            banderaAuxiliar=false;
+                                        }
+                                        else
+                                        {
+                                            //confirmar lo inesperado
+                                            cout<<"No se elimino el medicamento"<<endl;
+                                            cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                                            system("pause");
+                                            system("cls");
+                                            banderin=false;
+                                            banderaAuxiliar=false;
+                                        }
+
+                                    }
+                                    else if(opcion==2) //eliminar
+                                    {
+                                        string confirmacion;
+                                        cout<<"¿Desea eliminar el medicamento? s | n : ";
+                                        cin>>confirmacion;
+                                        if(confirmacion == "s")
+                                        {
+                                            cliente->enviar("ab");
+                                            cout<<"Se elimino correctamente el registro"<<endl;
+                                            cout<<cliente->recibir()<<endl;
+                                            cout<<"Presione cualquier tecla para continuar"<<endl;
+                                            system("pause");
+                                            system("cls");
+                                            banderin=false;
+                                            banderaAuxiliar=false;
+                                        }
+                                        else
+                                        {
+                                            //confirmar lo inesperado
+                                            cout<<"No se elimino el medicamento"<<endl;
+                                            cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                                            system("pause");
+                                            system("cls");
+                                            banderin=false;
+                                            banderaAuxiliar=false;
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        cout<<"Opcion incorrecta, vuelve a intentarlo"<<endl;
+                                        cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                                        system("pause");
+                                        system("cls");
+
+                                    }
+
+                                }
+
+                            }
+                            else
+                            {
+                                cout<<"ERROR: respuesta inesperada del servidor"<<endl;
+                                cout<<"Presione cualquier tecla para continuar"<<endl;
+                                system("pause");
+                                system("cls");
+
+                            }
+
+                        }//fin while secundario
+
+                    }
+                    else if(cliente->recibir()=="h")
+                    {
+                        cout<<"No se encontró ningún resultado para los criterios seleccionados. Presione ENTER para continuar"<<endl;
+                        system("pause");
+                        system("cls");
+
+                    }
+                    else
+                    {
+                        cout<<"ERROR: respuesta inesperada del servidor"<<endl;
+                        cout<<"Presione cualquier tecla para continuar"<<endl;
+                        system("pause");
+                        system("cls");
+                    }
 
 
+                    string opcion;
+                    cout<<"Administrar otro medicamento? s | n : ";
+                    cin>>opcion;
+                    if(opcion == "n")
+                    {
+                        bandera=false;
+                        cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                        system("pause");
+                        system("cls");
+                    }
+                    else
+                    {
+                        cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                        system("pause");
+                        system("cls");
+                    }//fin if
+
+
+
+
+                }//fin while principal
 
 
 
