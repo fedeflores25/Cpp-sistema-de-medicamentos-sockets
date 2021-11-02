@@ -1,6 +1,8 @@
 #include <iostream>
 #include <winsock2.h>
 #include <fstream>
+#include <sstream>
+
 using namespace std;
 
 class Cliente
@@ -108,7 +110,7 @@ public:
             break;// fin caso 1 Menu principal********************************
             case 2:// MEDICAMENTO
             {
-                menuMedicamento(cliente);
+                menuTipoMedicamento(cliente);
 
             };
             break;// fin caso 2 Menu principal *********************************
@@ -147,7 +149,7 @@ public:
     }
 
     // MENU TIPO MEDICAMENTO******************************************
-    void menutTipoMedicamento(Cliente *cliente)
+    void menuTipoMedicamento(Cliente *cliente)
     {
         system("cls");
 
@@ -179,7 +181,7 @@ public:
             case 1://CREAR TIPO DE MEDICAMENTO
             {
                 bool bandera=true;
-                char opcion;
+                string opcion;
                 char denominacion[50];
                 while(bandera)
                 {
@@ -193,15 +195,15 @@ public:
 
                     if(cliente->recibir() == "z")
                     {
-                        cout<<"Ya existe el tipo de medicamento"<<endl
-                            cout<<"Presione cualquier tecla para continuar"<<endl;
+                        cout<<"Ya existe el tipo de medicamento"<<endl;
+                        cout<<"Presione cualquier tecla para continuar"<<endl;
                         system("pause");
 
 
                     }
                     else if(cliente->recibir() == "p" )
                     {
-                        cout<<"Cliente creado!"<<endl;
+                        cout<<"Tipo de medicamento creado!"<<endl;
                         cout<<"ID: "<<cliente->recibir()<<endl;
 
                         cout<<"Crear otro medicamento? s | n : ";
@@ -219,6 +221,12 @@ public:
                         }//fin if
 
                     }//fin if que recibio "z" o recibio "p"
+                    else
+                    {
+                        cout<<"ERROR: respuesta inesperada del servidor"<<endl;
+                        cout<<"Presione cualquier tecla para continuar"<<endl;
+                        system("pause");
+                    }
 
 
                 }//fin while
@@ -270,8 +278,8 @@ public:
                             cout<<"Elegir por ID el Tipo de Medicamento a modificar"<<endl;
                             cout<<"Si no se desea modificar el campo escribir '@' "<<endl;
 
-                            cout<<"Ingresar ID: "
-                                cin>>id;
+                            cout<<"Ingresar ID: "<<endl;
+                            cin>>id;
 
                             cliente->enviar(id);
                             if(cliente->recibir()=="p") //if para saber si el id ingresado existe
@@ -300,12 +308,18 @@ public:
                                     }
                                     else if(cliente->recibir() == "k")
                                     {
-                                        cout<<"Se modifico correctamente el medicamento"<<enld
-                                            cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                                        cout<<"Se modifico correctamente el medicamento"<<endl;
+                                        cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
                                         system("pause");
                                         system("cls");
                                         banderaAuxiliar=false;
                                     }//fin if 3
+                                    else
+                                    {
+                                        cout<<"ERROR: respuesta inesperada del servidor"<<endl;
+                                        cout<<"Presione cualquier tecla para continuar"<<endl;
+                                        system("pause");
+                                    }
                                 }//confirmacion de operacion
                             }
                             else if(cliente->recibir()=="v")
@@ -316,10 +330,22 @@ public:
                                 system("cls");
 
                             }
+                            else
+                            {
+                                cout<<"ERROR: respuesta inesperada del servidor"<<endl;
+                                cout<<"Presione cualquier tecla para continuar"<<endl;
+                                system("pause");
+                            }
 
                         }//fin while 3
 
-                    }//fin while 2
+                    }
+                    else
+                    {
+                        cout<<"ERROR: respuesta inesperada del servidor"<<endl;
+                        cout<<"Presione cualquier tecla para continuar"<<endl;
+                        system("pause");
+                    }//fin if
 
 
                     string opcion;
@@ -383,6 +409,7 @@ public:
         //el while permite repetir el submenu
         while(banderaSubmenu)
         {
+
             //menu
             cout<<"Sub-Menu Medicamento"<<endl;
             cout<<"1 - Crear"<<endl;
@@ -402,27 +429,65 @@ public:
             case 1: // CREAR MEDICAMENTO
             {
                 bool bandera=true;
-                char opcion;
-                char denominacion[50];
+                string opcion;
+                char codigoProducto[50];
+                char nombreComercial[50];
+                char nombreDescripcionDroga[50];
+                char tipoMedicamento[50];
                 while(bandera)
                 {
+                    cliente->enviar("a");
                     cout<<"Crear Medicamento"<<endl;
-                    cout<<"Por favor ingrese la denominacion: "<<endl;
-                    cin>>denominacion;
-                    //cliente->enviar(denominacion);
-                    //cliente->recibir();
-                    cout<<"Crear otro medicamento? s | n : ";
-                    cin>>opcion;
-                    if(opcion == 'n')
+                    cout<<"Por favor ingrese el codigo de producto: "<<endl;
+                    cin>>codigoProducto;
+
+                    cout<<"Por favor el nombre comercial: "<<endl;
+                    cin>>nombreComercial;
+
+                    cout<<"Por favor ingrese el nombre de la descripcion de la droga: "<<endl;
+                    cin>>nombreDescripcionDroga;
+
+                    cout<<"Por favor ingrese el tipo de medicamento: "<<endl;
+                    cin>>tipoMedicamento;
+
+
+                    cliente->enviar(codigoProducto);
+                    cliente->enviar(nombreComercial);
+                    cliente->enviar(nombreDescripcionDroga);
+                    cliente->enviar(tipoMedicamento);
+
+                    if(cliente->recibir() == "w")
                     {
-                        bandera=false;
+                        cout<<"Ya existe el medicamento ingresado"<<endl;
+                        cout<<"Presione cualquier tecla para continuar"<<endl;
                         system("pause");
+                    }
+                    else if(cliente->recibir() == "b")
+                    {
+                        cout<<"Medicamento creado!"<<endl;
+                        cout<<"ID: "<<cliente->recibir()<<endl;
+
+                        cout<<"Crear otro medicamento? s | n : ";
+                        cin>>opcion;
+                        if(opcion == "n")
+                        {
+                            bandera=false;
+                            cout<<"Presione cualquier tecla para continuar"<<endl;
+                            system("pause");
+                        }
+                        else
+                        {
+                            cout<<"Presione cualquier tecla para continuar"<<endl;
+                            system("pause");
+                        }//fin if crear otro medicamento
+
                     }
                     else
                     {
+                        cout<<"ERROR: respuesta inesperada del servidor"<<endl;
+                        cout<<"Presione cualquier tecla para continuar"<<endl;
                         system("pause");
-                    }//fin if
-
+                    }// fin if w,b
 
                 }//fin while
 
@@ -431,6 +496,32 @@ public:
             break; //fin caso 1
             case 2: // ADMINISTRAR MEDICAMENTO
             {
+                    bool bandera= false;
+
+
+
+
+
+                string opcion;
+                cout<<"Administrar otro medicamento? s | n : ";
+                cin>>opcion;
+                if(opcion == "n")
+                {
+                    bandera=false;
+                    cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                    system("pause");
+                    system("cls");
+                }
+                else
+                {
+                    cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                    system("pause");
+                    system("cls");
+                }//fin if
+
+
+
+
 
 
             };

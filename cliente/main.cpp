@@ -57,7 +57,7 @@ int main()
 
             system("pause");
             cliente->cerrarSocket();
-
+            int varMenu=0;
             string ingresoTeclado=" ";
             cout<<"Salir del sistema? 1 | Volver a intentarlo! 2"<<endl;
             cin>>ingresoTeclado;
@@ -80,7 +80,8 @@ int main()
 
             }
 
-        }
+        }//fin while
 
+    }//fin while
         return 0;
     }
