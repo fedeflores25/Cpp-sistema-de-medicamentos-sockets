@@ -29,7 +29,7 @@ public:
     }
 
     //DESTRUCTOR
-    ~Cliente(){}
+    ~Cliente() {}
 
     // METODOS*******************************************************
 
@@ -202,7 +202,7 @@ public:
                     cliente->enviar(denominacion);
 
 
-                    if(cliente->recibir() == "z")
+                    if(cliente->recibir() == "z")// NO PASO LA VALIDACION
                     {
                         cout<<cliente->recibir()<<endl;
                         cout<<"Presione cualquier tecla para continuar"<<endl;
@@ -210,7 +210,7 @@ public:
 
 
                     }
-                    else if(cliente->recibir() == "p" )
+                    else if(cliente->recibir() == "p" ) //TIPO MEDICAMENTO CREADO
                     {
                         cout<<"Tipo de medicamento creado!"<<endl;
                         cout<<"ID: "<<cliente->recibir()<<endl;
@@ -308,13 +308,14 @@ public:
                                 string confirmacion;
                                 cout<<"¿Desea guardar los cambios? s | n : "<<endl;
                                 cin>>confirmacion;
-                                if(confirmacion=="s")
+                                if(confirmacion=="s") //
                                 {
                                     //aca tengo que enviar los datos a modificar
                                     cliente->enviar(denominacion);
                                     cliente->enviar(estado);
                                     //aca recibo la respuesta, si se pudo modificar o no
 
+                                    //AGREGAR VALIDACION DE DENOMINACION
                                     cout<<"Se modifico correctamente el medicamento"<<endl;
                                     cout<<cliente->recibir()<<endl;
                                     cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
@@ -335,7 +336,7 @@ public:
 
                                 }
                             }
-                            else if(cliente->recibir()=="v")
+                            else if(cliente->recibir()=="v")//ID NO ENCONTRADO
                             {
                                 cout<<"El id ingresado no se encuentra en la lista"<<endl;
                                 cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
@@ -551,7 +552,7 @@ public:
 
                             if(cliente->recibir() == "r")//no encontrado
                             {
-                                cout<<"El id ingresado no se encuentra en la lista"<<endl;
+                                cout<<cliente->recibir()<<endl;
                                 cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
                                 system("pause");
                                 system("cls");
@@ -592,170 +593,185 @@ public:
                                         {
                                             cliente->enviar("aa");
 
-                                            cliente->enviar(nombreComercial);
-                                            cliente->enviar(codigoProducto);
-                                            cliente->enviar(descripcionDroga);
-                                            cliente->enviar(tipoMedicamento);
+                                            bool bandera5=true;
+                                            while(bandera5)
+                                            {
+                                                cout<<"Si desea omitir la modificacion de algun valor ingresar @"<<endl;
+                                                cout<<"Ingresar nuevo nombre comercial"<<endl;
+                                                cliente->enviar(nombreComercial);
+                                                cout<<"Ingresar nuevo codigo de producto"<<endl;
+                                                cliente->enviar(codigoProducto);
+                                                cout<<"Ingresar nueva descripcion de la droga"<<endl;
+                                                cliente->enviar(descripcionDroga);
+                                                cout<<"Ingresar nuevo tipo de medicamento"<<endl;
+                                                cliente->enviar(tipoMedicamento);
 
-                                            cout<<"Se modifico correctamente el registro"<<endl;
-                                            cout<<cliente->recibir()<<endl;
-                                            cout<<"Presione cualquier tecla para continuar"<<endl;
-                                            system("pause");
-                                            system("cls");
-                                            banderin=false;
-                                            banderaAuxiliar=false;
+                                                if(cliente->recibir()=="ac")
+                                                {
+                                                    cout<<"Se modifico correctamente el registro"<<endl;
+                                                    cout<<cliente->recibir()<<endl;
+                                                    cout<<"Presione cualquier tecla para continuar"<<endl;
+                                                    system("pause");
+                                                    system("cls");
+                                                    banderin=false;
+                                                    banderaAuxiliar=false;
+                                                    bandera5=false;
+                                                }
+                                                else if(cliente->recibir()=="ad")
+                                                {
+                                                    cout<<cliente->recibir()<<endl;
+                                                    cout<<"Volver a intentarlo"<<endl;
+                                                    cout<<"Presione cualquier tecla para continuar"<<endl;
+                                                    system("pause");
+                                                    system("cls");
+
+                                                }
+                                                else
+                                                {
+                                                    cout<<cliente->recibir()<<endl;
+                                                    cout<<"Error: respuesta inesperada del servidor"<<endl;
+                                                    cout<<"Presione cualquier tecla para continuar"<<endl;
+                                                    system("pause");
+                                                    system("cls");
+                                                }//fin if
+
+                                            }//fin  while
+
+
+
+                                            else
+                                            {
+                                                //confirmar lo inesperado
+                                                cout<<"No se elimino el medicamento"<<endl;
+                                                cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                                                system("pause");
+                                                system("cls");
+                                                banderin=false;
+                                                banderaAuxiliar=false;
+                                            }
+
+                                        }
+                                        else if(opcion==2) //eliminar
+                                        {
+                                            string confirmacion;
+                                            cout<<"¿Desea eliminar el medicamento? s | n : ";
+                                            cin>>confirmacion;
+                                            if(confirmacion == "s")
+                                            {
+                                                cliente->enviar("ab");
+                                                cout<<cliente->recibir()<<endl;
+                                                cout<<"Presione cualquier tecla para continuar"<<endl;
+                                                system("pause");
+                                                system("cls");
+                                                banderin=false;
+                                                banderaAuxiliar=false;
+                                            }
+                                            else
+                                            {
+                                                //confirmar lo inesperado
+                                                cout<<"No se elimino el medicamento"<<endl;
+                                                cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                                                system("pause");
+                                                system("cls");
+                                                banderin=false;
+                                                banderaAuxiliar=false;
+                                            }
+
                                         }
                                         else
                                         {
-                                            //confirmar lo inesperado
-                                            cout<<"No se elimino el medicamento"<<endl;
+                                            cout<<"Opcion incorrecta, vuelve a intentarlo"<<endl;
                                             cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
                                             system("pause");
                                             system("cls");
-                                            banderin=false;
-                                            banderaAuxiliar=false;
-                                        }
 
-                                    }
-                                    else if(opcion==2) //eliminar
-                                    {
-                                        string confirmacion;
-                                        cout<<"¿Desea eliminar el medicamento? s | n : ";
-                                        cin>>confirmacion;
-                                        if(confirmacion == "s")
-                                        {
-                                            cliente->enviar("ab");
-                                            cout<<"Se elimino correctamente el registro"<<endl;
-                                            cout<<cliente->recibir()<<endl;
-                                            cout<<"Presione cualquier tecla para continuar"<<endl;
-                                            system("pause");
-                                            system("cls");
-                                            banderin=false;
-                                            banderaAuxiliar=false;
                                         }
-                                        else
-                                        {
-                                            //confirmar lo inesperado
-                                            cout<<"No se elimino el medicamento"<<endl;
-                                            cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
-                                            system("pause");
-                                            system("cls");
-                                            banderin=false;
-                                            banderaAuxiliar=false;
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        cout<<"Opcion incorrecta, vuelve a intentarlo"<<endl;
-                                        cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
-                                        system("pause");
-                                        system("cls");
 
                                     }
 
                                 }
+                                else
+                                {
+                                    cout<<"ERROR: respuesta inesperada del servidor"<<endl;
+                                    cout<<"Presione cualquier tecla para continuar"<<endl;
+                                    system("pause");
+                                    system("cls");
 
-                            }
-                            else
-                            {
-                                cout<<"ERROR: respuesta inesperada del servidor"<<endl;
-                                cout<<"Presione cualquier tecla para continuar"<<endl;
-                                system("pause");
-                                system("cls");
+                                }
 
-                            }
+                            }//fin while secundario
 
-                        }//fin while secundario
+                        }
+                        else if(cliente->recibir()=="h")
+                        {
 
-                    }
-                    else if(cliente->recibir()=="h")
+                            cout<<cliente->recibir()<<endl;
+                            system("pause");
+                            system("cls");
+
+                        }
+                        else
+                        {
+                            cout<<cliente->recibir()<<endl;
+                            cout<<"Presione cualquier tecla para continuar"<<endl;
+                            system("pause");
+                            system("cls");
+                        }
+
+
+                        string opcion;
+                        cout<<"Administrar otro medicamento? s | n : ";
+                        cin>>opcion;
+                        if(opcion == "n")
+                        {
+                            bandera=false;
+                            cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                            system("pause");
+                            system("cls");
+                        }
+                        else
+                        {
+                            cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                            system("pause");
+                            system("cls");
+                        }//fin if
+
+
+                    }//fin while principal
+
+                };
+                break;
+                case 3: // volver atras
+                {
+                    cout<<"Desea volver atras? 1-si | 2-no"<<endl;
+                    cin>>submenu;
+                    //convierto la variable a string
+                    stringstream geek(submenu);
+                    //transfiero el valor de geek a una variable de tipo int
+                    geek >> varSubMenu;
+                    if(varSubMenu==1)
                     {
-                        cout<<"No se encontró ningún resultado para los criterios seleccionados. Presione ENTER para continuar"<<endl;
-                        system("pause");
-                        system("cls");
-
-                    }
-                    else
-                    {
-                        cout<<"ERROR: respuesta inesperada del servidor"<<endl;
-                        cout<<"Presione cualquier tecla para continuar"<<endl;
-                        system("pause");
-                        system("cls");
-                    }
-
-
-                    string opcion;
-                    cout<<"Administrar otro medicamento? s | n : ";
-                    cin>>opcion;
-                    if(opcion == "n")
-                    {
-                        bandera=false;
-                        cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
-                        system("pause");
-                        system("cls");
-                    }
-                    else
-                    {
+                        banderaSubmenu=false;
+                        cout<<"Adios"<<endl;
                         cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
                         system("pause");
                         system("cls");
                     }//fin if
 
 
-                }//fin while principal
-
-                string opcion;
-                cout<<"Administrar otro medicamento? s | n : ";
-                cin>>opcion;
-                if(opcion == "n")
-                {
-                    bandera=false;
+                };
+                break;//fin caso 3
+                default:
+                    cout<<"No ingresaste una opcion valida, vuelve a intentarlo!"<<endl;
                     cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
                     system("pause");
                     system("cls");
-                }
-                else
-                {
-                    cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
-                    system("pause");
-                    system("cls");
-                }//fin if
-
-
-            };
-            break;
-            case 3: // volver atras
-            {
-                cout<<"Desea volver atras? 1-si | 2-no"<<endl;
-                cin>>submenu;
-                //convierto la variable a string
-                stringstream geek(submenu);
-                //transfiero el valor de geek a una variable de tipo int
-                geek >> varSubMenu;
-                if(varSubMenu==1)
-                {
-                    banderaSubmenu=false;
-                    cout<<"Adios"<<endl;
-                    cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
-                    system("pause");
-                    system("cls");
-                }//fin if
-
-
-            };
-            break;//fin caso 3
-            default:
-                cout<<"No ingresaste una opcion valida, vuelve a intentarlo!"<<endl;
-                cout<<"Ingrese una tecla cualquiera para continuar"<<endl;
+                    ;
+                }//fin switch
                 system("pause");
                 system("cls");
-                ;
-            }//fin switch
-            system("pause");
-            system("cls");
-        }//fin while
+            }//fin while
 
-    }
+        }
 
-};
+    };

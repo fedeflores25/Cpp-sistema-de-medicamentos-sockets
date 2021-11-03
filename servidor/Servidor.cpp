@@ -120,15 +120,6 @@ public:
 
     }
 
-    /*void enviar()
-    {
-        cout<<"Escribe el mensaje a enviar: "<<endl;
-        cin>>this->buffer;
-         fflush(stdin);
-        send(servidor,buffer,sizeof(buffer),0);
-        memset(buffer,'\0',strlen(buffer));
-    }*/
-
     void enviar(const char *mensaje)
     {
         strcpy(buffer, mensaje);
@@ -178,6 +169,7 @@ public:
         });
         return cadena;
     }
+
     string mostrarServerLog()
     {
         string linea,texto;
@@ -403,10 +395,8 @@ public:
                         servidor->enviar("opcion no valida en modificacion tipo de medicamento");
                     }
 
-
-
                 }
-                else
+                else//caso inesperado
                 {
 
                     cout<<"Error: resultado inesperado en la creacion de tipo medicamento"<<endl;
@@ -466,9 +456,8 @@ public:
 
 
             }
-            else if((esValido(nombreComercial, tipoMedicamento) == false) && (esCodigoProducto(codigoProducto) == false))
+            else if((esValido(nombreComercial, tipoMedicamento) == false) && (esCodigoProducto(codigoProducto) == false) && (existeTipoMedicamento(tipoMedicamento)==true))
             {
-
                 servidor->enviar("w");
                 string cadena = "El medicamento "+nombreComercial+"-"+tipoMedicamento+" ya existe, por favor ingrese un Nombre Comercial y/o Tipo de medicamento diferente \n y el codigo de producto "+codigoProducto+" es incorrecto";
                 char mensaje1[100];
@@ -476,6 +465,14 @@ public:
                 servidor->enviar(mensaje1);
 
 
+            }
+            else if(existeTipoMedicamento(tipoMedicamento)==false)
+            {
+                servidor->enviar("w");
+                string cadena = "El tipo de medicamento ingresado: "+tipoMedicamento+" no existe, por favor ingrese un tipo existente";
+                char mensaje1[100];
+                strcpy(mensaje1,cadena.c_str());
+                servidor->enviar(mensaje1);
             }
             else
             {
@@ -491,6 +488,117 @@ public:
             string nombreComercial = servidor->recibir();
             string tipoMedicamento = servidor->recibir();
 
+            if(encontrado(nombreComercial,tipoMedicamento) == true)//filtro para traer medicamentos
+            {
+                // ARCHIVO BINARIO TRAER DATOS CON ESOS FILTROS Y ENVIARLOS CON EL METODO DE ABAJO
+                servidor->enviar("datos");
+
+                if ( existeIdMedicamento(servidor->recibir()) == true )
+                {
+                    servidor->enviar("q");
+
+                    if(servidor->recibir() == "ab")
+                    {
+                        servidor->enviar("Se elimino correctamente el registro");
+                    }
+                    else if(servidor->recibir() == "aa")
+                    {
+                        bool bandera5=true;
+                        while(bandera5)
+                        {
+                            string codigoProducto;
+                            string droga;
+                            //modificar
+                            nombreComercial = servidor->recibir();
+                            codigoProducto = servidor->recibir();
+                            droga = servidor->recibir();
+                            tipoMedicamento = servidor->recibir();
+
+                            if( (esValido(nombreComercial, tipoMedicamento) == true) && (esCodigoProducto(codigoProducto) == true) )
+                            {
+                                servidor->enviar("ac");
+
+                                servidor->enviar("datos del medicamento creado");
+
+
+                            }
+                            else if( esValido(nombreComercial, tipoMedicamento) == false )
+                            {
+                                servidor->enviar("ad");
+                                string cadena = "El medicamento "+nombreComercial+"-"+tipoMedicamento+" ya existe, por favor ingrese un Nombre Comercial y/o Tipo de medicamento diferente";
+                                char mensaje1[100];
+                                strcpy(mensaje1,cadena.c_str());
+                                servidor->enviar(mensaje1);
+                            }
+                            else if(esCodigoProducto(codigoProducto) == false)
+                            {
+                                servidor->enviar("ad");
+                                string cadena = "El codigo de producto "+codigoProducto+" es incorrecto";
+                                char mensaje1[100];
+                                strcpy(mensaje1,cadena.c_str());
+                                servidor->enviar(mensaje1);
+
+                            }
+                            else if((esValido(nombreComercial, tipoMedicamento) == false) && (esCodigoProducto(codigoProducto) == false) && (existeTipoMedicamento(tipoMedicamento)==true))
+                            {
+                                servidor->enviar("ad");
+                                string cadena = "El medicamento "+nombreComercial+"-"+tipoMedicamento+" ya existe, por favor ingrese un Nombre Comercial y/o Tipo de medicamento diferente \n y el codigo de producto "+codigoProducto+" es incorrecto";
+                                char mensaje1[100];
+                                strcpy(mensaje1,cadena.c_str());
+                                servidor->enviar(mensaje1);
+                            }
+                            else if(existeTipoMedicamento(tipoMedicamento)==false)
+                            {
+                                servidor->enviar("ad");
+                                string cadena = "El tipo de medicamento ingresado: "+tipoMedicamento+" no existe, por favor ingrese un tipo existente";
+                                char mensaje1[100];
+                                strcpy(mensaje1,cadena.c_str());
+                                servidor->enviar(mensaje1);
+                            }
+                            else
+                            {
+                                servidor->enviar("ad");
+                                cout<<"ERROR: ocurrio una combinacion inesperada en las validaciones";
+                                servidor->enviar("ERROR: ocurrio una combinacion inesperada en las validaciones");
+                            }
+
+
+                        }//fin while
+
+
+
+                    }
+                    else
+                    {
+                        cout<<"Error: combinacion de teclas inesperadas"<<endl;
+                    }
+
+
+                }
+                else if( existeIdMedicamento(servidor->recibir()) == false )
+                {
+                    servidor->enviar("r");
+                    servidor->enviar("No ingresaste un id valido");
+                }
+                else
+                {
+                    servidor->enviar("r");
+                    servidor->enviar("ERROR: opcion inesperada");
+                }
+
+
+            }
+            else if(encontrado(nombreComercial,tipoMedicamento) == false)
+            {
+                servidor->enviar("h");
+                servidor->enviar("No se encontró ningún resultado para los criterios seleccionados. Presione ENTER para continuar");
+            }
+            else
+            {
+                cout<<"Error: resultado inesperado en la busqueda de tipo medicamento"<<endl;
+                servidor->enviar("h");
+                servidor->enviar("ERROR: opcion no valida en la busqueda tipo de medicamento");
+            }
 
         };
         break;
@@ -510,7 +618,6 @@ public:
 
         }//fin switch
     }// fin metodo menuServidor
-
 
 
     //METODOS INCOMPLETOS TIPO MEDICAMENTO
@@ -551,5 +658,20 @@ public:
         return true;
     }
 
+    bool existeTipoMedicamento(string tipoMedicamento)
+    {
+        return true;
+    }
 
+    bool encontrado(string nombreComercial,string tipoMedicamento)
+    {
+
+        return true;
+    }
+
+    bool existeIdMedicamento(string id)
+    {
+        //busca en el archivo binario que haya un tip de medicamento con esa denominacion
+        return false;
+    }//fin metodo existeDenominacion
 };//fin clase servidor
