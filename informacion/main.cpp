@@ -7,11 +7,24 @@
 
 using namespace std;
 
+//CREAR ARCHIVO BINARIO Y AGREGAR 1 REGISTRO
 int escribirTipoMedicamento(int id, string denominacion);
+//AGREGAR
 struct TipoMedicamento agregarArchivoTipoMedicamento(int id, string denominacion);
+//LEER EL ARCHIVO
 void leerArchivoTipoMedicamento();
+//CANTIDAD DE TIPOS DE MEDICAMENTOS GUARDADOS
 int cantidadTipoMedicamento();
+//DEVOLVER UN PUNTERO PARA PODER TRABAJAR CON LA ESTRUCTURA
 struct TipoMedicamento * traerArchivoTipoMedicamento();
+//BUSCAR EN EL ARCHIVO
+struct TipoMedicamento * buscarArchivoTipoMedicamento();
+struct TipoMedicamento * buscarArchivoTipoMedicamentoDenominacion(string denominacion);
+struct TipoMedicamento * buscarArchivoTipoMedicamentoEstado(bool estado);
+struct TipoMedicamento buscarArchivoTipoMedicamentoId(int id);
+void modificarTipoMedicamento(int id, string denominacion, bool estado);
+
+
 
 struct TipoMedicamento
 {
@@ -31,7 +44,9 @@ int main()
         cout<<"2 - Agregar informacion al archivo binario Tipo de Medicamento "<<endl;
         cout<<"3 - Leer informacion guardada "<<endl;
         cout<<"4 - Recorrer informacion guardada "<<endl;
-        cout<<"6 - Salir "<<endl;
+        cout<<"5 - Buscar por id "<<endl; //si retorna 0 en la id es porque no encontro nada
+        cout<<"6 - Modificar "<<endl;
+        cout<<"7 - Salir "<<endl;
 
         int opcion = 0;
         cin>>opcion;
@@ -79,7 +94,7 @@ int main()
 
         };
         break;
-        case 4:
+        case 4:// TRAER UN ARRAY DE STRUCT TIPO MEDICAMENTO
         {
             int cantidad = cantidadTipoMedicamento();
             cout<<"Cantidad: "<<cantidad<<endl;
@@ -89,14 +104,14 @@ int main()
             struct TipoMedicamento tipo;
 
 
-            for(int i=0;i<cantidad;i++)
+            for(int i=0; i<cantidad; i++)
             {
-                    //capturo cada posicion del puntero y lo convierto al tipo correcto
-                    tipo = *((tipos)+i);
+                //capturo cada posicion del puntero y lo convierto al tipo correcto
+                tipo = *((tipos)+i);
 
-                    cout<<"Id: "<<tipo.id<<endl;
-                    cout<<"Denominacion: "<<tipo.denominacion<<endl;
-                    cout<<"Estado: "<<tipo.estado<<endl<<endl;
+                cout<<"Id: "<<tipo.id<<endl;
+                cout<<"Denominacion: "<<tipo.denominacion<<endl;
+                cout<<"Estado: "<<tipo.estado<<endl<<endl;
 
 
             }
@@ -105,10 +120,31 @@ int main()
         break;
         case 5:
         {
+            struct TipoMedicamento tipo = buscarArchivoTipoMedicamentoId(1);
+
+            cout<<"ID: "<<tipo.id<<endl;
+            cout<<"Denominacion: "<<tipo.denominacion<<endl;
+            if(tipo.estado == 1)
+            {
+                cout<<"Estado: activado"<<endl;
+            }
+            else
+            {
+                cout<<"Estado: desactivado"<<endl;
+            }
+
+
+            system("pause");
 
         };
         break;
         case 6:
+        {
+            modificarTipoMedicamento(1,"heroico",false);
+
+        };
+        break;
+        case 7:
         {
             bandera=false;
 
@@ -131,6 +167,7 @@ int escribirTipoMedicamento(int id, string denominacion)
     //convierto el string a char
     char denomin[20];
     strcpy(denomin,denominacion.c_str());
+
 
     ofstream archivoBinario;
     archivoBinario.open("TipoMedicamento.dat", ios::out | ios::binary);
@@ -289,3 +326,193 @@ struct TipoMedicamento * traerArchivoTipoMedicamento()
 
     return tipos;
 }
+
+struct TipoMedicamento * buscarArchivoTipoMedicamento(string denominacion, bool estado)
+{
+
+    ifstream archivoBinario;
+
+    archivoBinario.open("TipoMedicamento.dat", ios::in | ios::binary);
+
+    if(archivoBinario.fail())//en caso que no se cree el archivo binario
+    {
+        cout<<"No se pudo abrir el archivo binario tipo de medicamento"<<endl;
+        exit(1);
+    }
+
+    static TipoMedicamento tipos[20];
+    static TipoMedicamento aux[20];
+    int contador = 0;
+    char denomin[20];
+    strcpy(denomin,denominacion.c_str());
+    string auxDenominacion;
+
+
+    while(!archivoBinario.eof())// mientras no haya finalizado de recorrer el archivo binario
+    {
+        archivoBinario.read((char *)&tipos[contador], sizeof(TipoMedicamento));
+
+        auxDenominacion = tipos[contador].denominacion;
+        if( (!archivoBinario.eof()) && ( (auxDenominacion==denominacion)) && (tipos[contador].estado==estado) )//if para que no me repita el ultimo archivo
+        {
+            aux[contador].id = tipos[contador].id;
+            strcpy(aux[contador].denominacion, denomin);
+            aux[contador].estado = estado;
+        }
+        contador++;
+
+
+    }//fin while
+
+    archivoBinario.close();
+
+    return tipos;
+
+
+}
+
+struct TipoMedicamento * buscarArchivoTipoMedicamentoDenominacion(string denominacion)
+{
+
+    ifstream archivoBinario;
+
+    archivoBinario.open("TipoMedicamento.dat", ios::in | ios::binary);
+
+    if(archivoBinario.fail())//en caso que no se cree el archivo binario
+    {
+        cout<<"No se pudo abrir el archivo binario tipo de medicamento"<<endl;
+        exit(1);
+    }
+
+    static TipoMedicamento tipos[20];
+    static TipoMedicamento aux[20];
+    int contador = 0;
+    char denomin[20];
+    strcpy(denomin,denominacion.c_str());
+    string auxDenominacion;
+
+
+    while(!archivoBinario.eof())// mientras no haya finalizado de recorrer el archivo binario
+    {
+        archivoBinario.read((char *)&tipos[contador], sizeof(TipoMedicamento));
+
+        auxDenominacion = tipos[contador].denominacion;
+        if( (!archivoBinario.eof()) && ( (auxDenominacion==denominacion)))//if para que no me repita el ultimo archivo
+        {
+            aux[contador].id = tipos[contador].id;
+            strcpy(aux[contador].denominacion, denomin);
+            aux[contador].estado = tipos[contador].estado;
+        }
+        contador++;
+
+
+    }//fin while
+
+    archivoBinario.close();
+
+    return tipos;
+
+}
+
+struct TipoMedicamento * buscarArchivoTipoMedicamentoEstado(bool estado)
+{
+
+    ifstream archivoBinario;
+
+    archivoBinario.open("TipoMedicamento.dat", ios::in | ios::binary);
+
+    if(archivoBinario.fail())//en caso que no se cree el archivo binario
+    {
+        cout<<"No se pudo abrir el archivo binario tipo de medicamento"<<endl;
+        exit(1);
+    }
+
+    static TipoMedicamento tipos[20];
+    static TipoMedicamento aux[20];
+    int contador = 0;
+
+
+    while(!archivoBinario.eof())// mientras no haya finalizado de recorrer el archivo binario
+    {
+        archivoBinario.read((char *)&tipos[contador], sizeof(TipoMedicamento));
+
+
+        if( (!archivoBinario.eof()) && (tipos[contador].estado==estado) )//if para que no me repita el ultimo archivo
+        {
+            aux[contador].id = tipos[contador].id;
+            strcpy(aux[contador].denominacion, tipos[contador].denominacion);
+            aux[contador].estado = estado;
+        }
+        contador++;
+
+
+
+    }//fin while
+
+    archivoBinario.close();
+
+    return tipos;
+
+}
+
+struct TipoMedicamento buscarArchivoTipoMedicamentoId(int id)
+{
+
+    ifstream archivoBinario;
+
+    archivoBinario.open("TipoMedicamento.dat", ios::in | ios::binary);
+
+    if(archivoBinario.fail())//en caso que no se cree el archivo binario
+    {
+        cout<<"No se pudo abrir el archivo binario tipo de medicamento"<<endl;
+        exit(1);
+    }
+
+    static TipoMedicamento tipos[20];
+    static TipoMedicamento aux;
+    int contador = 0;
+
+    while(!archivoBinario.eof())// mientras no haya finalizado de recorrer el archivo binario
+    {
+        archivoBinario.read((char *)&tipos[contador], sizeof(TipoMedicamento));
+
+
+        if( (!archivoBinario.eof()) && ( tipos[contador].id==id ) )//if para que no me repita el ultimo archivo
+        {
+
+            aux.id = tipos[contador].id;
+            strcpy(aux.denominacion, tipos[contador].denominacion);
+            aux.estado = tipos[contador].estado;
+
+
+        }
+        contador++;
+
+    }//fin while
+
+    archivoBinario.close();
+
+    return aux;
+
+}
+void modificarTipoMedicamento(int id, string denominacion, bool estado)
+{
+    char denomin[20];
+    strcpy(denomin,denominacion.c_str());
+
+    TipoMedicamento tipo;
+    tipo.id = id;
+    strcpy(tipo.denominacion, denomin);
+    tipo.estado = false;
+
+    fstream archivoBinario("TipoMedicamento.dat",ios::out | ios::in | ios::binary);
+
+    if(archivoBinario.is_open())
+        {
+        archivoBinario.seekp((tipo.id-1)*sizeof(TipoMedicamento));
+        archivoBinario.write((char *)&tipo,sizeof(TipoMedicamento));
+        archivoBinario.close();
+        }
+
+}
+
