@@ -10,7 +10,9 @@ int main()
 
 
     cout<<servidor->fechaYHora()<<endl;
+    bool bandera = true;
 
+    while(bandera){
     servidor->aceptar();
     //login
     if(servidor->login(servidor) == true)
@@ -29,6 +31,8 @@ int main()
     }
 
 
+
+    }
 
 
     servidor->cerrarSocketServidor();

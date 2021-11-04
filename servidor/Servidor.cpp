@@ -283,6 +283,10 @@ public:
     void menuServidor(Servidor *servidor)
     {
         int varSubMenu;
+
+        bool bandera = true;
+
+        while(bandera){
         string submenu = servidor->recibir();
         //convierto la variable a string
         stringstream geek(submenu);
@@ -610,13 +614,13 @@ public:
         case 6://SALIR
         {
             servidor->cerrarSocket();
-
+            bandera = false;
         };
         break;
-        default:
-            cout<<"Cliente ingreso opcion no valida, se le permite volver a intentarlo"<<endl;
-
+        default: cout<<"Cliente ingreso opcion no valida, se le permite volver a intentarlo"<<endl;
         }//fin switch
+        }//fin while
+
     }// fin metodo menuServidor
 
 
@@ -674,4 +678,5 @@ public:
         //busca en el archivo binario que haya un tip de medicamento con esa denominacion
         return false;
     }//fin metodo existeDenominacion
+
 };//fin clase servidor

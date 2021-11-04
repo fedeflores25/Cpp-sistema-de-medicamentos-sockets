@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1635998762 source:c:\users\administrator\desktop\git\adm-medicamentos\informacion\main.cpp
+	<iostream>
+	<fstream>
+	<sstream>
+	<string.h>
+	<stdlib.h>
+	<conio.h>
+
