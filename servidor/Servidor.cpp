@@ -1693,9 +1693,6 @@ public:
         return aux;
     }
 
-
-
-
     bool comprobarArchivoMedicamento(string nombreComercial, string denominacion)
     {
         bool bandera = false;

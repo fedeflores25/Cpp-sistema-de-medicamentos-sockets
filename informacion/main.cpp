@@ -91,7 +91,8 @@ int main()
             system("cls");
             cout << "Crear archivo binario tipo medicamento de 0" << endl;
 
-            int idCreado = escribirTipoMedicamento(1, "Jarabe");
+
+            int idCreado = escribirMedicamento(1, "KKK-12345-15","tafirol","Satilmetanilizano",3 );
 
             cout<<"Id del recien creado: "<<idCreado<<endl<<endl;
 
