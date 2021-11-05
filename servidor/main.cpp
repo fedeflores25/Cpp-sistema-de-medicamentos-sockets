@@ -11,16 +11,18 @@ int main()
 
     cout<<servidor->fechaYHora()<<endl;
     bool bandera = true;
+    string user;
+    string *usuario=&user;
 
     while(bandera){
     servidor->aceptar();
     //login
-    if(servidor->login(servidor) == true)
+    if(servidor->login(servidor,usuario) == true)
     {
         //el codigo c | significa logueo fue exitoso
         servidor->enviar("c");
         //respuestas al menu
-        servidor->menuServidor(servidor);
+        servidor->menuServidor(servidor, usuario);
         //si pasa estas validaciones puede acceder al menu
     }
     else
@@ -33,6 +35,7 @@ int main()
 
 
     }
+
 
 
     servidor->cerrarSocketServidor();

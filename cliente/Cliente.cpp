@@ -95,6 +95,7 @@ public:
             cout<<"4 - Salir"<<endl;
             cout<<endl<<"Ingrese la opcion que desee: ";
 
+
             // El ingreso del teclado es un string para poder atrapar cualquier valor que ingrese y validarlo
             // , de esta forma si ingresan una opcion incorrecta o cualquier caracter no se rompa el programa
             cin>>ingresoTeclado;
@@ -257,8 +258,6 @@ public:
                     cout<<"Por favor ingrese los criterios de busqueda"<<endl;
                     cout<<"Si no se desea aplicar el filtro escribir '@' "<<endl;
 
-                    cout<<"Id: ";
-                    cin>>id;
 
                     cout<<endl<<"Denominacion: ";
                     cin>>denominacion;
@@ -267,7 +266,7 @@ public:
                     cin>>estado;
 
                     //le envio al servidor los datos de mi filtro, en denominacion pueden ir letras o cadenas del texto de denominacion
-                    cliente->enviar(id);
+
                     cliente->enviar(denominacion);
                     cliente->enviar(estado);
 
@@ -639,7 +638,7 @@ public:
 
 
 
-                                            else
+                                            }else
                                             {
                                                 //confirmar lo inesperado
                                                 cout<<"No se elimino el medicamento"<<endl;

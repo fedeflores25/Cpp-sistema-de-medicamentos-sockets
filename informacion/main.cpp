@@ -546,11 +546,11 @@ void modificarTipoMedicamento(int id, string denominacion, bool estado)
     fstream archivoBinario("TipoMedicamento.dat",ios::out | ios::in | ios::binary);
 
     if(archivoBinario.is_open())
-        {
+    {
         archivoBinario.seekp((tipo.id-1)*sizeof(TipoMedicamento));
         archivoBinario.write((char *)&tipo,sizeof(TipoMedicamento));
         archivoBinario.close();
-        }
+    }
 
 }
 void eliminarTipoMedicamento(int id)
@@ -568,7 +568,7 @@ void eliminarTipoMedicamento(int id)
 
 //MEDICAMENTO
 int escribirMedicamento(int id, string codigoProducto, string nombreComercial, string nombreDescripcionDroga, int idTipoMedicamento )
-  {
+{
     char codigoProduct[50];
     char nombreComer[50];
     char descripcionDrog[50];
@@ -695,7 +695,7 @@ void leerArchivoMedicamento()
             cout<<"Nombre comercial: "<<medicamento.nombreComercial<<endl;
             cout<<"Nombre descripcion droga: "<<medicamento.codigoProducto<<endl;
             cout<<"Codigo de producto: "<<medicamento.codigoProducto<<endl;
-           TipoMedicamento tipo = buscarArchivoTipoMedicamentoId(medicamento.idTipoMedicamento);
+            TipoMedicamento tipo = buscarArchivoTipoMedicamentoId(medicamento.idTipoMedicamento);
             cout<<"Tipo medicamento: "<<endl;
             cout<<"ID: "<<tipo.id<<endl;
             cout<<"Denominacion: "<<tipo.denominacion<<endl;
@@ -847,7 +847,7 @@ struct Medicamento * buscarArchivoMedicamentoNombreComercial(string nombreComerc
 
 struct Medicamento * buscarArchivoMedicamentoDenominacion(string denominacion)
 {
-   ifstream archivoBinario;
+    ifstream archivoBinario;
 
     archivoBinario.open("Medicamento.dat", ios::in | ios::binary);
 
@@ -899,7 +899,7 @@ struct Medicamento * buscarArchivoMedicamentoDenominacion(string denominacion)
 struct Medicamento buscarArchivoMedicamentoId(int id)
 {
 
- ifstream archivoBinario;
+    ifstream archivoBinario;
 
     archivoBinario.open("Medicamento.dat", ios::in | ios::binary);
 
@@ -961,11 +961,11 @@ void modificarMedicamento(int id, string codigoProducto, string nombreComercial,
     fstream archivoBinario("Medicamento.dat",ios::out | ios::in | ios::binary);
 
     if(archivoBinario.is_open())
-        {
+    {
         archivoBinario.seekp((medicamento.id-1)*sizeof(Medicamento));
         archivoBinario.write((char *)&medicamento,sizeof(Medicamento));
         archivoBinario.close();
-        }
+    }
 
 }
 

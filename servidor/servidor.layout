@@ -2,14 +2,62 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Release" />
-	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="738" topLine="10" />
-		</Cursor>
-	</File>
 	<File name="Servidor.cpp" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="122" topLine="69" />
+			<Cursor1 position="9916" topLine="146" />
+		</Cursor>
+		<Folding>
+			<Collapse line="39" />
+			<Collapse line="91" />
+			<Collapse line="114" />
+			<Collapse line="140" />
+			<Collapse line="149" />
+			<Collapse line="159" />
+			<Collapse line="169" />
+			<Collapse line="181" />
+			<Collapse line="190" />
+			<Collapse line="205" />
+			<Collapse line="213" />
+			<Collapse line="221" />
+			<Collapse line="312" />
+			<Collapse line="791" />
+			<Collapse line="797" />
+			<Collapse line="803" />
+			<Collapse line="808" />
+			<Collapse line="814" />
+			<Collapse line="823" />
+			<Collapse line="828" />
+			<Collapse line="833" />
+			<Collapse line="838" />
+			<Collapse line="843" />
+			<Collapse line="849" />
+			<Collapse line="859" />
+			<Collapse line="890" />
+			<Collapse line="923" />
+			<Collapse line="952" />
+			<Collapse line="991" />
+			<Collapse line="1025" />
+			<Collapse line="1068" />
+			<Collapse line="1109" />
+			<Collapse line="1150" />
+			<Collapse line="1191" />
+			<Collapse line="1211" />
+			<Collapse line="1225" />
+			<Collapse line="1260" />
+			<Collapse line="1293" />
+			<Collapse line="1327" />
+			<Collapse line="1374" />
+			<Collapse line="1406" />
+			<Collapse line="1455" />
+			<Collapse line="1503" />
+			<Collapse line="1554" />
+			<Collapse line="1596" />
+			<Collapse line="1627" />
+		</Folding>
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="370" topLine="4" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
